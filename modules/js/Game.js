@@ -1,233 +1,382 @@
-/**
- *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * bombbusters implementation : © <Your name here> <Your email address here>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- * 
- * In this file, you are describing the logic of your user interface, in Javascript language.
- *
- */
-
-// To use the BGA libs, save their latest .d.ts files at the root of your game.
-// Documentation and demos:
-// https://doc.studio.boardgamearena.com/framework-documentation/front-end/libs/bga-animations/
-// https://doc.studio.boardgamearena.com/framework-documentation/front-end/libs/bga-cards/
-// Uncomment the following lines to load the libraries with their types:
-// /** @type {typeof globalThis.BgaAnimations} */
-// const BgaAnimations = await globalThis.importEsmLib('bga-animations', '1.x');
-// /** @type {typeof globalThis.BgaCards} */
-// const BgaCards = await globalThis.importEsmLib('bga-cards', '1.x');
-
-/**
- * @typedef {Player & {
- *   energy: number
- * }} bombbustersPlayer
- */
-/**
- * @typedef {Gamedatas<bombbustersPlayer> & {
- * }} bombbustersGamedatas
- */
-/**
-* @typedef {Object} PlayerTurnArgs
-* @property {number[]} playableCardsIds
-*/
-
-/**
- * We create one State class per declared state on the PHP side, to handle all state specific code here.
- * onEnteringState, onLeavingState and onPlayerActivationChange are predefined names that will be called by the framework.
- * When executing code in this state, you can access the args using this.args
- */
-class PlayerTurn {
-    /** @type {PlayerTurnArgs} */
-    args;
-
-    /**
-     * @param {Game} game
-     * @param {Bga} bga
-     */
+class SetupInfo {
     constructor(game, bga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     * 
-     * @param {PlayerTurnArgs} args 
-     * @param {boolean} isCurrentPlayerActive 
-     */
     onEnteringState(args, isCurrentPlayerActive) {
-        this.bga.statusBar.setTitle(isCurrentPlayerActive ? 
-            _('${you} must play a card or pass') :
-            _('${actplayer} must play a card or pass')
-        );
-      
-        if (isCurrentPlayerActive) {
-            const playableCardsIds = args.playableCardsIds; // returned by the PlayerTurn::getArgs
-
-            // Add test action buttons in the action status bar, simulating a card click:
-            playableCardsIds.forEach(
-                cardId => this.bga.statusBar.addActionButton(_('Play card with id ${card_id}').replace('${card_id}', `${cardId}`), () => this.onCardClick(cardId))
-            ); 
-
-            this.bga.statusBar.addActionButton(_('Pass'), () => this.bga.actions.performAction("actPass"), { color: 'secondary' }); 
-        }
+        this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     * 
-     * @param {PlayerTurnArgs} args 
-     * @param {boolean} isCurrentPlayerActive 
-     */
-    onLeavingState(args, isCurrentPlayerActive) {
-    }
-
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     * 
-     * @param {PlayerTurnArgs} args 
-     * @param {boolean} isCurrentPlayerActive 
-     */
     onPlayerActivationChange(args, isCurrentPlayerActive) {
+        this.game.setupSelectionEnabled = isCurrentPlayerActive;
+        this.bga.statusBar.setTitle(isCurrentPlayerActive
+            ? _('${you} должны выбрать синий провод для начального информационного жетона')
+            : _('Ожидание выбора начальных информационных жетонов'));
+        this.game.renderAll();
     }
 
-    /**
-     * @param {number} card_id 
-     */
-    onCardClick(card_id) {
-        console.log('onCardClick', card_id);
+    onLeavingState() {
+        this.game.setupSelectionEnabled = false;
+    }
+}
 
-        this.bga.actions.performAction("actPlayCard", { 
-            card_id,
-        }).then(() =>  {                
-            // What to do after the server call if it succeeded
-            // (most of the time, nothing, as the game will react to notifs / change of state instead, so you can delete the `then`)
-        });        
+class PlayerTurn {
+    constructor(game, bga) {
+        this.game = game;
+        this.bga = bga;
+    }
+
+    onEnteringState(args, isCurrentPlayerActive) {
+        this.game.playerTurnActive = isCurrentPlayerActive;
+        this.game.selectedDualValue = null;
+        this.bga.statusBar.setTitle(isCurrentPlayerActive
+            ? _('${you} должны выполнить действие с проводами')
+            : _('${actplayer} выполняет действие с проводами'));
+
+        if (isCurrentPlayerActive) {
+            args.soloValues.forEach(value => {
+                const label = _('Одиночный разрез: ${value}').replace('${value}', this.game.valueLabel(value));
+                this.bga.statusBar.addActionButton(label, () => {
+                    this.bga.actions.performAction('actSoloCut', { value });
+                });
+            });
+            if (args.revealRed) {
+                this.bga.statusBar.addActionButton(_('Вскрыть свои красные провода'), () => {
+                    this.bga.actions.performAction('actRevealRed');
+                }, { color: 'secondary' });
+            }
+        }
+        this.game.renderAll();
+    }
+
+    onLeavingState() {
+        this.game.playerTurnActive = false;
+        this.game.selectedDualValue = null;
     }
 }
 
 export class Game {
-    /**
-     * @param {Bga} bga
-     */
     constructor(bga) {
-        console.log('bombbusters constructor');
         this.bga = bga;
-
-        // Declare the State classes
-        this.playerTurn = new PlayerTurn(this, bga);
-        this.bga.states.register('PlayerTurn', this.playerTurn);
-
-        // Uncomment the next line to show debug informations about state changes in the console. Remove before going to production!
-        // this.bga.states.logger = console.log;
-            
-        // Here, you can init the global variables of your user interface
-        // Example:
-        // this.myGlobalValue = 0;
+        this.setupSelectionEnabled = false;
+        this.playerTurnActive = false;
+        this.selectedDualValue = null;
+        this.bga.states.register('SetupInfo', new SetupInfo(this, bga));
+        this.bga.states.register('PlayerTurn', new PlayerTurn(this, bga));
     }
-    
-    /*
-        setup:
-        
-        This method must set up the game user interface according to current game situation specified
-        in parameters.
-        
-        The method is called each time the game interface is displayed to a player, ie:
-        _ when the game starts
-        _ when a player refreshes the game page (F5)
-        
-        "gamedatas" argument contains all datas retrieved by your "getAllDatas" PHP method.
-    */
-    
-    /**
-     * @param {bombbustersGamedatas} gamedatas
-     */
+
     setup(gamedatas) {
-        console.log("Starting game setup", gamedatas);
         this.gamedatas = gamedatas;
-
-        // Example to add a div on the game area
         this.bga.gameArea.getElement().insertAdjacentHTML('beforeend', `
-            <div id="player-tables"></div>
+            <div id="bb-game" class="bombbusters_game">
+                <section class="bombbusters_panel">
+                    <h2>Тестовая миссия</h2>
+                    <div id="bb-outcome"></div>
+                    <div id="bb-detonator"></div>
+                    <div id="bb-special-wires"></div>
+                    <div id="bb-validated"></div>
+                </section>
+                <div id="bb-selection" class="bombbusters_selection"></div>
+                <section class="bombbusters_panel">
+                    <h2>Перерезанные и вскрытые провода</h2>
+                    <div id="bb-cut-wires" class="bombbusters_wire_list"></div>
+                </section>
+                <div id="bb-players"></div>
+            </div>
         `);
-        
-        // Setting up player boards
-        Object.values(gamedatas.players).forEach(player => {
-            // example of setting up players boards
-            this.bga.playerPanels.getElement(Number(player.id)).insertAdjacentHTML('beforeend', `
-                <span id="energy-player-counter-${player.id}"></span> Energy
-            `);
-            const counter = new ebg.counter();
-            counter.create(`energy-player-counter-${player.id}`, {
-                value: player.energy,
-                playerCounter: 'energy',
-                playerId: Number(player.id)
-            });
+        this.bga.gameArea.getElement().addEventListener('click', event => this.onGameAreaClick(event));
+        this.renderAll();
+        this.bga.notifications.setupPromiseNotifications();
+    }
 
-            // example of adding a div for each player
-            document.getElementById('player-tables').insertAdjacentHTML('beforeend', `
-                <div id="player-table-${player.id}">
-                    <strong>${player.name}</strong>
-                    <div>Player zone content goes here</div>
-                </div>
-            `);
+    renderAll() {
+        if (!this.gamedatas || !document.getElementById('bb-game')) {
+            return;
+        }
+        this.renderOutcome();
+        this.renderDetonator();
+        this.renderSpecialWires();
+        this.renderValidatedValues();
+        this.renderCutWires();
+        this.renderPlayers();
+        this.renderSelectionHelp();
+    }
+
+    renderOutcome() {
+        const outcome = this.gamedatas.outcome;
+        const messages = {
+            success: 'Миссия выполнена!',
+            red: 'Перерезан красный провод. Миссия провалена.',
+            detonator: 'Детонатор достиг черепа. Миссия провалена.',
+        };
+        document.getElementById('bb-outcome').innerHTML = outcome
+            ? `<div class="bombbusters_outcome bombbusters_${this.escapeHtml(outcome)}">${messages[outcome] || ''}</div>`
+            : '';
+    }
+
+    renderDetonator() {
+        const current = parseInt(this.gamedatas.detonator, 10);
+        const max = parseInt(this.gamedatas.detonatorMax, 10);
+        const steps = Array.from({ length: max }, (ignored, index) => {
+            const reached = index < current ? ' bombbusters_reached' : '';
+            const label = index === max - 1 ? '☠' : `${index + 1}`;
+            return `<span class="bombbusters_dial_step${reached}">${label}</span>`;
+        }).join('');
+        document.getElementById('bb-detonator').innerHTML = `
+            <div class="bombbusters_section_title">Детонатор: ${current} / ${max}</div>
+            <div class="bombbusters_dial">${steps}</div>
+        `;
+    }
+
+    renderSpecialWires() {
+        const markers = this.gamedatas.specialWires.map(wire => `
+            <span class="bombbusters_marker bombbusters_${wire.color}">
+                ${wire.color === 'red' ? 'Красный' : 'Жёлтый'} ${String(wire.sortValue).replace('.', ',')}
+            </span>
+        `).join('');
+        document.getElementById('bb-special-wires').innerHTML = `
+            <div class="bombbusters_section_title">Значения особых проводов</div>
+            <div class="bombbusters_markers">${markers}</div>
+        `;
+    }
+
+    renderValidatedValues() {
+        const validated = new Set(this.gamedatas.validatedValues.map(value => parseInt(value, 10)));
+        const values = Array.from({ length: 12 }, (ignored, index) => {
+            const value = index + 1;
+            const done = validated.has(value) ? ' bombbusters_validated' : '';
+            return `<span class="bombbusters_validation${done}">${value}</span>`;
+        }).join('');
+        document.getElementById('bb-validated').innerHTML = `
+            <div class="bombbusters_section_title">Полностью перерезанные значения</div>
+            <div class="bombbusters_validations">${values}</div>
+        `;
+    }
+
+    renderCutWires() {
+        const container = document.getElementById('bb-cut-wires');
+        if (this.gamedatas.cutWires.length === 0) {
+            container.innerHTML = '<span class="bombbusters_empty">Пока нет</span>';
+            return;
+        }
+        container.innerHTML = this.gamedatas.cutWires.map(wire => this.renderPublicWire(wire)).join('');
+    }
+
+    renderPlayers() {
+        document.getElementById('bb-players').innerHTML = Object.values(this.gamedatas.players).map(player => {
+            const playerId = parseInt(player.id, 10);
+            const hand = this.gamedatas.hands[playerId] || [];
+            const isViewer = playerId === parseInt(this.gamedatas.viewerId, 10);
+            const captain = playerId === parseInt(this.gamedatas.captainId, 10);
+            const labels = [this.escapeHtml(player.name)];
+            if (captain) {
+                labels.push('капитан');
+            }
+            if (isViewer) {
+                labels.push('вы');
+            }
+            const stands = Array.from({ length: parseInt(player.standCount, 10) }, (ignored, index) => {
+                const stand = index + 1;
+                const wires = hand.filter(wire => parseInt(wire.stand, 10) === stand)
+                    .sort((a, b) => parseInt(a.position, 10) - parseInt(b.position, 10));
+                return `
+                    <div class="bombbusters_stand">
+                        <div class="bombbusters_stand_title">Подставка ${stand}</div>
+                        <div class="bombbusters_wire_list">
+                            ${wires.length ? wires.map(wire => this.renderWire(wire)).join('') : '<span class="bombbusters_empty">Пусто</span>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            return `
+                <section class="bombbusters_player" style="--bombbusters-player-color: #${this.escapeHtml(player.color)}">
+                    <h3>${labels.join(' · ')} <small>${hand.length} проводов</small></h3>
+                    <div class="bombbusters_stands">${stands}</div>
+                </section>
+            `;
+        }).join('');
+    }
+
+    renderWire(wire) {
+        const revealed = typeof wire.color === 'string';
+        const color = revealed ? wire.color : 'hidden';
+        const wireId = parseInt(wire.id, 10);
+        const ownerId = parseInt(wire.ownerId, 10);
+        const value = revealed ? wire.value : '';
+        const selected = revealed && value === this.selectedDualValue && ownerId === parseInt(this.gamedatas.viewerId, 10);
+        const targetable = !revealed && this.playerTurnActive && this.selectedDualValue !== null;
+        const classes = [
+            'bombbusters_wire',
+            `bombbusters_${color}`,
+            selected ? 'bombbusters_selected' : '',
+            targetable ? 'bombbusters_targetable' : '',
+        ].filter(Boolean).join(' ');
+        const mainLabel = revealed ? this.compactValueLabel(value) : '?';
+        const info = wire.info
+            ? `<span class="bombbusters_info">${this.valueLabel(wire.info.value)}</span>`
+            : '';
+        return `
+            <button type="button" class="${classes}" data-wire-id="${wireId}" data-owner-id="${ownerId}" title="Провод ${wireId}">
+                <span class="bombbusters_wire_value">${mainLabel}</span>
+                ${info}
+            </button>
+        `;
+    }
+
+    renderPublicWire(wire) {
+        return `
+            <span class="bombbusters_wire bombbusters_${wire.color}" title="Игрок ${parseInt(wire.ownerId, 10)}">
+                <span class="bombbusters_wire_value">${this.compactValueLabel(wire.value)}</span>
+            </span>
+        `;
+    }
+
+    renderSelectionHelp() {
+        const element = document.getElementById('bb-selection');
+        if (this.setupSelectionEnabled) {
+            element.textContent = 'Нажмите на один из своих синих проводов, чтобы разместить информационный жетон.';
+        } else if (this.playerTurnActive && this.selectedDualValue !== null) {
+            element.textContent = `Выбрано значение «${this.valueLabel(this.selectedDualValue)}». Теперь нажмите на провод напарника.`;
+        } else if (this.playerTurnActive) {
+            element.textContent = 'Для двойного разреза нажмите на свой синий или жёлтый провод, затем на провод напарника.';
+        } else {
+            element.textContent = '';
+        }
+    }
+
+    onGameAreaClick(event) {
+        const button = event.target.closest('button[data-wire-id]');
+        if (!button) {
+            return;
+        }
+        const wireId = parseInt(button.dataset.wireId, 10);
+        const ownerId = parseInt(button.dataset.ownerId, 10);
+        const viewerId = parseInt(this.gamedatas.viewerId, 10);
+
+        if (ownerId === viewerId && this.setupSelectionEnabled) {
+            const wire = this.findHandWire(wireId);
+            if (wire && wire.color === 'blue') {
+                this.bga.actions.performAction('actChooseInitialInfo', { wireId });
+            }
+            return;
+        }
+
+        if (!this.playerTurnActive) {
+            return;
+        }
+        if (ownerId === viewerId) {
+            const wire = this.findHandWire(wireId);
+            if (wire && (wire.color === 'blue' || wire.color === 'yellow')) {
+                this.selectedDualValue = wire.value;
+                this.renderAll();
+            }
+            return;
+        }
+        if (this.selectedDualValue !== null) {
+            const value = this.selectedDualValue;
+            this.selectedDualValue = null;
+            this.bga.actions.performAction('actDualCut', { targetWireId: wireId, value });
+            this.renderAll();
+        }
+    }
+
+    findHandWire(wireId) {
+        for (const hand of Object.values(this.gamedatas.hands)) {
+            const wire = hand.find(candidate => parseInt(candidate.id, 10) === wireId);
+            if (wire) {
+                return wire;
+            }
+        }
+        return null;
+    }
+
+    removeWiresFromHands(wires) {
+        const ids = new Set(wires.map(wire => parseInt(wire.id, 10)));
+        Object.keys(this.gamedatas.hands).forEach(playerId => {
+            this.gamedatas.hands[playerId] = this.gamedatas.hands[playerId]
+                .filter(wire => !ids.has(parseInt(wire.id, 10)));
         });
-        
-        // TODO: Set up your game interface here, according to "gamedatas"
-        
-
-        // Setup game notifications to handle (see "setupNotifications" method below)
-        this.setupNotifications();
-
-        console.log( "Ending game setup" );
+        this.gamedatas.cutWires.push(...wires);
     }
 
-    ///////////////////////////////////////////////////
-    //// Utility methods
-    
-    /*
-    
-        Here, you can defines some utility methods that you can use everywhere in your javascript
-        script. Typically, functions that are used in multiple state classes or outside a state class.
-    
-    */
-
-    
-    ///////////////////////////////////////////////////
-    //// Reaction to cometD notifications
-
-    /*
-        setupNotifications:
-        
-        In this method, you associate each of your game notifications with your local method to handle it.
-        
-        Note: game notification names correspond to "bga->notify->all" calls in your Game.php file.
-    
-    */
-    setupNotifications() {
-        console.log( 'notifications subscriptions setup' );
-        
-        // automatically listen to the notifications, based on the `notif_xxx` function on this class. 
-        // Uncomment the logger param to see debug information in the console about notifications.
-        this.bga.notifications.setupPromiseNotifications({
-            // logger: console.log
-        });
+    notif_initialInfo(args) {
+        const wire = this.findHandWire(parseInt(args.wire.id, 10));
+        if (wire) {
+            wire.info = args.wire.info;
+        }
+        this.renderAll();
     }
-    
-    // TODO: from this point and below, you can write your game notifications handling methods
-    
-    /*
-    Example:
-    async notif_cardPlayed( args ) {
-        // Note: args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
-        
-        // TODO: play the card in the user interface.
+
+    notif_dualCutSuccess(args) {
+        this.gamedatas.validatedValues = args.validatedValues;
+        this.removeWiresFromHands(args.wires);
+        this.renderAll();
     }
-    */
+
+    notif_dualCutFailure(args) {
+        this.gamedatas.detonator = parseInt(args.detonator, 10);
+        const wire = this.findHandWire(parseInt(args.wire.id, 10));
+        if (wire) {
+            wire.info = args.wire.info;
+        }
+        this.renderAll();
+    }
+
+    notif_redWireExploded(args) {
+        this.gamedatas.outcome = 'red';
+        this.removeWiresFromHands([args.wire]);
+        this.renderAll();
+    }
+
+    notif_detonatorExploded(args) {
+        this.gamedatas.detonator = parseInt(args.detonator, 10);
+        this.gamedatas.outcome = 'detonator';
+        this.renderAll();
+    }
+
+    notif_soloCut(args) {
+        this.gamedatas.validatedValues = args.validatedValues;
+        this.removeWiresFromHands(args.wires);
+        this.renderAll();
+    }
+
+    notif_redWiresRevealed(args) {
+        this.removeWiresFromHands(args.wires);
+        this.renderAll();
+    }
+
+    notif_missionEnded(args) {
+        this.gamedatas.outcome = args.outcome;
+        this.renderAll();
+    }
+
+    valueLabel(value) {
+        if (value === 'yellow') {
+            return 'жёлтый';
+        }
+        if (value === 'red') {
+            return 'красный';
+        }
+        return String(value);
+    }
+
+    compactValueLabel(value) {
+        if (value === 'yellow') {
+            return 'Ж';
+        }
+        if (value === 'red') {
+            return 'К';
+        }
+        return String(value);
+    }
+
+    escapeHtml(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
 }

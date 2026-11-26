@@ -1,65 +1,250 @@
-/**
- *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * bombbusters implementation : © <Your name here> <Your email address here>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- */
+.bombbusters_game {
+    --bombbusters-ink: #20242a;
+    --bombbusters-panel: #f4f1e9;
+    color: var(--bombbusters-ink);
+    display: grid;
+    gap: 14px;
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 10px;
+}
 
-/*
-    This is the CSS stylesheet of your game User Interface.
-    
-    Styles defined on this file will be applied to HTML elements you create (in Game.js).
-    
-    Usually, you are using CSS to:
-    
-    1°) define the overall layout of your game
-        (ex: place the board on the top left, place player's hand beside, place the deck on the right, ...).
+.bombbusters_game h2,
+.bombbusters_game h3 {
+    margin: 0 0 10px;
+}
 
-    2°) create your CSS-sprites:
-        All images of your games should be gathered into a small number of image files. Then, using
-        background-image and background-position CSS properties, you create HTML blocks that can 
-        display these images correctly (see example below).
-    
-    3°) ... anything else:
-        It is really easy to add and remove CSS classes dynamically from your Javascript with
-        dojo.addClass and dojo.removeClass. It is also easy to check if an element has a class
-        (dojo.hasClass) or to get all elements with a specific class (dojo.query). This is why,
-        very often, using CSS classes for the logic of your user interface allow you to do complex
-        thing easily.
-        
-        
-     Note: on the production platform, this file will be compressed and comments will be removed.
-           Consequently, don't hesitate to put as many comments as necessary.
-*/
+.bombbusters_game h3 {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+}
 
+.bombbusters_game h3 small {
+    font-size: 13px;
+    font-weight: normal;
+}
 
-/* Note: you must not use any @import directive */
+.bombbusters_panel,
+.bombbusters_player {
+    background: var(--bombbusters-panel);
+    border: 1px solid #c9c4b8;
+    border-radius: 10px;
+    padding: 14px;
+}
 
+.bombbusters_player {
+    border-top: 5px solid var(--bombbusters-player-color);
+}
 
-/********* You can start writing your CSS below this line: **********/
+.bombbusters_section_title {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 8px 0 5px;
+}
 
+.bombbusters_dial,
+.bombbusters_markers,
+.bombbusters_validations,
+.bombbusters_wire_list {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
 
-/*
-    Example of CSS sprites (a black token and a white token, 20x20px each, embedded in the same "tokens.png" 40x20px image):
+.bombbusters_dial_step {
+    align-items: center;
+    background: #fff;
+    border: 2px solid #8c8c8c;
+    border-radius: 50%;
+    color: #333;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+}
 
-    .white_token {
-        background-image: url('img/tokens.png');
-        background-position: 0px 0px;
+.bombbusters_dial_step.bombbusters_reached {
+    background: #c84242;
+    border-color: #8f2020;
+    color: #fff;
+}
+
+.bombbusters_marker,
+.bombbusters_validation {
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 7px;
+}
+
+.bombbusters_marker.bombbusters_red {
+    background: #f4d1d1;
+}
+
+.bombbusters_marker.bombbusters_yellow {
+    background: #f7e7a0;
+}
+
+.bombbusters_validation {
+    background: #dedede;
+    min-width: 20px;
+    text-align: center;
+}
+
+.bombbusters_validation.bombbusters_validated {
+    background: #3b8d57;
+    color: #fff;
+}
+
+.bombbusters_selection {
+    font-weight: bold;
+    min-height: 20px;
+    padding: 0 4px;
+}
+
+.bombbusters_stands {
+    display: grid;
+    gap: 10px;
+}
+
+.bombbusters_stand {
+    background: rgb(255 255 255 / 55%);
+    border-radius: 7px;
+    padding: 8px;
+}
+
+.bombbusters_stand_title {
+    color: #5e6268;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.bombbusters_wire {
+    align-items: center;
+    border: 2px solid rgb(0 0 0 / 25%);
+    border-radius: 6px;
+    box-shadow: 0 2px 2px rgb(0 0 0 / 18%);
+    display: inline-flex;
+    flex-direction: column;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: bold;
+    height: 62px;
+    justify-content: center;
+    min-width: 38px;
+    padding: 3px;
+    position: relative;
+}
+
+button.bombbusters_wire {
+    cursor: pointer;
+}
+
+.bombbusters_wire.bombbusters_blue {
+    background: #2878c8;
+    color: #fff;
+}
+
+.bombbusters_wire.bombbusters_red {
+    background: #c83c3c;
+    color: #fff;
+}
+
+.bombbusters_wire.bombbusters_yellow {
+    background: #f2cb3c;
+    color: #2d2800;
+}
+
+.bombbusters_wire.bombbusters_hidden {
+    background: #59616e;
+    color: #fff;
+}
+
+.bombbusters_wire.bombbusters_selected {
+    outline: 4px solid #40b969;
+    outline-offset: 2px;
+}
+
+.bombbusters_wire.bombbusters_targetable {
+    animation: bombbusters-target-pulse 1s infinite alternate;
+    border-color: #fff;
+}
+
+.bombbusters_info {
+    background: #fff;
+    border-radius: 3px;
+    bottom: 2px;
+    color: #151515;
+    font-size: 10px;
+    left: 2px;
+    line-height: 1.2;
+    max-width: calc(100% - 4px);
+    padding: 2px;
+    position: absolute;
+}
+
+.bombbusters_empty {
+    color: #6f7378;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.bombbusters_outcome {
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 12px;
+}
+
+.bombbusters_outcome.bombbusters_success {
+    background: #d4eedb;
+    color: #18552b;
+}
+
+.bombbusters_outcome.bombbusters_red,
+.bombbusters_outcome.bombbusters_detonator {
+    background: #f3d1d1;
+    color: #7c1919;
+}
+
+html[data-theme="dark"] .bombbusters_game {
+    --bombbusters-ink: #ecedf0;
+    --bombbusters-panel: #292d34;
+}
+
+html[data-theme="dark"] .bombbusters_panel,
+html[data-theme="dark"] .bombbusters_player {
+    border-color: #555c66;
+}
+
+html[data-theme="dark"] .bombbusters_stand {
+    background: rgb(255 255 255 / 7%);
+}
+
+html[data-theme="dark"] .bombbusters_stand_title,
+html[data-theme="dark"] .bombbusters_empty {
+    color: #bdc2ca;
+}
+
+@keyframes bombbusters-target-pulse {
+    from { box-shadow: 0 0 0 0 rgb(255 255 255 / 20%); }
+    to { box-shadow: 0 0 0 5px rgb(255 255 255 / 55%); }
+}
+
+@media (min-width: 800px) {
+    #bb-players {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .black_token {
-        background-image: url('img/tokens.png');
-        background-position: -20px 0px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bombbusters_wire.bombbusters_targetable {
+        animation: none;
+        outline: 3px solid #fff;
     }
-    .token {
-        width: 20px;
-        height: 20px;
-        background-repeat: none;
-    }
-*/
-
-
-
-
+}

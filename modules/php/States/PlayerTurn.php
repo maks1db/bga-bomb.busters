@@ -7,111 +7,169 @@ namespace Bga\Games\bombbusters\States;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\GameFramework\SystemException;
 use Bga\GameFramework\UserException;
 use Bga\Games\bombbusters\Game;
+use Bga\Games\bombbusters\Wire;
 
 class PlayerTurn extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: 10,
-            type: StateType::ACTIVE_PLAYER,
-        );
+    public function __construct(protected Game $game)
+    {
+        parent::__construct($game, id: 20, type: StateType::ACTIVE_PLAYER, updateGameProgression: true);
     }
 
-    /**
-     * Game state arguments, example content.
-     *
-     * This method returns some additional information that is very specific to the `PlayerTurn` game state.
-     */
-    public function getArgs(): array
+    public function getArgs(int $activePlayerId): array
     {
-        // Get some values from the current game situation from the database.
+        return $this->game->getTurnArgs($activePlayerId);
+    }
 
-        return [
-            "playableCardsIds" => [1, 2],
-        ];
-    }    
-
-    /**
-     * Player action, example content.
-     *
-     * In this scenario, each time a player plays a card, this method will be called. This method is called directly
-     * by the action trigger on the front side with `bgaPerformAction`.
-     *
-     * @throws UserException
-     */
     #[PossibleAction]
-    public function actPlayCard(int $card_id, int $activePlayerId, array $args)
+    public function actDualCut(int $targetWireId, string $value, int $activePlayerId, array $args): string
     {
-        // check input values
-        $playableCardsIds = $args['playableCardsIds'];
-        if (!in_array($card_id, $playableCardsIds)) {
-            throw new UserException('Invalid card choice');
+        if (!in_array($value, $args['dualValues'], true)) {
+            throw new UserException(clienttranslate('Это значение нельзя выбрать для двойного разреза'));
+        }
+        $target = $this->game->wires->getItemById($targetWireId);
+        if ($target === null || $target->location !== 'hand' || (int)$target->locationArg === $activePlayerId) {
+            throw new UserException(clienttranslate('Выберите провод другого игрока'));
+        }
+        $ownWires = $this->game->getOwnWiresByValue($activePlayerId, $value);
+        if ($ownWires === []) {
+            throw new UserException(clienttranslate('В вашей руке нет провода с этим значением'));
+        }
+        $own = $ownWires[0];
+        $targetOwnerId = (int)$target->locationArg;
+
+        if ($target->getValue() === $value && $value !== 'red') {
+            $this->game->wires->moveItem($target, ['cut', $targetOwnerId]);
+            $this->game->wires->moveItem($own, ['cut', $activePlayerId]);
+            $validatedValues = $this->game->updateValidatedValues();
+            $message = $value === 'yellow'
+                ? clienttranslate('${player_name} успешно перерезает два жёлтых провода')
+                : clienttranslate('${player_name} успешно перерезает два провода со значением ${value}');
+            $this->notify->all('dualCutSuccess', $message, [
+                'player_id' => $activePlayerId,
+                'player_name' => $this->game->getPlayerNameById($activePlayerId),
+                'value' => $value,
+                'wires' => [
+                    $this->game->getWireData($own, true),
+                    $this->game->getWireData($target, true),
+                ],
+                'validatedValues' => $validatedValues,
+            ]);
+            return $this->afterRemovedWires();
         }
 
-        // Add your game logic to play a card here.
-        $card_name = Game::$CARD_TYPES[$card_id]['card_name'];
+        if ($target->color === 'red') {
+            $this->game->wires->moveItem($target, ['cut', $targetOwnerId]);
+            $this->game->setOutcome('red');
+            $this->notify->all('redWireExploded', clienttranslate('${player_name} перерезает красный провод. Бомба взрывается!'), [
+                'player_id' => $activePlayerId,
+                'player_name' => $this->game->getPlayerNameById($activePlayerId),
+                'wire' => $this->game->getWireData($target, true),
+            ]);
+            return EndScore::class;
+        }
 
-        // Notify all players about the card played.
-        $this->bga->notify->all("cardPlayed", clienttranslate('${player_name} plays ${card_name}'), [
-            "player_id" => $activePlayerId,
-            "player_name" => $this->game->getPlayerNameById($activePlayerId), // remove this line if you uncomment notification decorator
-            "card_name" => $card_name, // remove this line if you uncomment notification decorator
-            "card_id" => $card_id,
-            "i18n" => ['card_name'], // remove this line if you uncomment notification decorator
+        $detonator = $this->game->advanceDetonator();
+        if ($detonator >= Game::DETONATOR_MAX) {
+            $this->game->setOutcome('detonator');
+            $this->notify->all('detonatorExploded', clienttranslate('Детонатор достигает черепа. Бомба взрывается!'), [
+                'detonator' => $detonator,
+            ]);
+            return EndScore::class;
+        }
+
+        $target->infoRevealed = true;
+        $this->game->wires->updateItem($target, 'infoRevealed');
+        $this->notify->all('dualCutFailure', clienttranslate('Значение не совпало. Детонатор продвигается, а провод получает информационный жетон'), [
+            'player_id' => $activePlayerId,
+            'player_name' => $this->game->getPlayerNameById($activePlayerId),
+            'wire' => $this->game->getWireData($target, false),
+            'detonator' => $detonator,
         ]);
-
-        // in this example, the player gains 1 points each time he plays a card
-        $this->bga->playerScore->inc($activePlayerId, 1);
-
-        // at the end of the action, move to the next state
         return NextPlayer::class;
     }
 
-    /**
-     * Player action, example content.
-     *
-     * In this scenario, each time a player pass, this method will be called. This method is called directly
-     * by the action trigger on the front side with `bgaPerformAction`.
-     */
     #[PossibleAction]
-    public function actPass(int $activePlayerId)
+    public function actSoloCut(string $value, int $activePlayerId, array $args): string
     {
-        // Notify all players about the choice to pass.
-        $this->notify->all("pass", clienttranslate('${player_name} passes'), [
-            "player_id" => $activePlayerId,
-            "player_name" => $this->game->getPlayerNameById($activePlayerId), // remove this line if you uncomment notification decorator
+        if (!in_array($value, $args['soloValues'], true)) {
+            throw new UserException(clienttranslate('Эти провода нельзя перерезать одиночным действием'));
+        }
+        $wires = $this->game->getOwnWiresByValue($activePlayerId, $value);
+        $this->game->wires->moveItems($wires, ['cut', $activePlayerId]);
+        $validatedValues = $this->game->updateValidatedValues();
+        $message = $value === 'yellow'
+            ? clienttranslate('${player_name} перерезает оставшиеся жёлтые провода')
+            : clienttranslate('${player_name} перерезает оставшиеся провода со значением ${value}');
+        $this->notify->all('soloCut', $message, [
+            'player_id' => $activePlayerId,
+            'player_name' => $this->game->getPlayerNameById($activePlayerId),
+            'value' => $value,
+            'wires' => array_map(
+                fn(Wire $wire): array => $this->game->getWireData($wire, true),
+                $wires,
+            ),
+            'validatedValues' => $validatedValues,
         ]);
-
-        // in this example, the player gains 1 energy each time he passes
-        $this->game->playerEnergy->inc($activePlayerId, 1);
-
-        // at the end of the action, move to the next state
-        return NextPlayer::class;
+        return $this->afterRemovedWires();
     }
 
-    /**
-     * This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
-     * You can do whatever you want in order to make sure the turn of this player ends appropriately
-     * (ex: play a random card).
-     * 
-     * See more about Zombie Mode: https://en.doc.boardgamearena.com/Zombie_Mode
-     *
-     * Important: your zombie code will be called when the player leaves the game. This action is triggered
-     * from the main site and propagated to the gameserver from a server, not from a browser.
-     * As a consequence, there is no current player associated to this action. In your zombieTurn function,
-     * you must _never_ use `getCurrentPlayerId()` or `getCurrentPlayerName()`, 
-     * but use the $playerId passed in parameter and $this->game->getPlayerNameById($playerId) instead.
-     */
-    function zombie(int $playerId) {
-        // Example of zombie level 0: return NextPlayer::class; or $this->actPass($playerId);
+    #[PossibleAction]
+    public function actRevealRed(int $activePlayerId, array $args): string
+    {
+        if (!$args['revealRed']) {
+            throw new UserException(clienttranslate('Красные провода можно вскрыть, только когда в руке не осталось других проводов'));
+        }
+        $wires = $this->game->wires->getItemsInLocation(['hand', $activePlayerId])->values();
+        $this->game->wires->moveItems($wires, ['revealed', $activePlayerId]);
+        $this->notify->all('redWiresRevealed', clienttranslate('${player_name} безопасно вскрывает свои красные провода'), [
+            'player_id' => $activePlayerId,
+            'player_name' => $this->game->getPlayerNameById($activePlayerId),
+            'wires' => array_map(
+                fn(Wire $wire): array => $this->game->getWireData($wire, true),
+                $wires,
+            ),
+        ]);
+        return $this->afterRemovedWires();
+    }
 
-        // Example of zombie level 1:
-        $args = $this->getArgs();
-        $zombieChoice = $this->getRandomZombieChoice($args['playableCardsIds']); // random choice over possible moves
-        return $this->actPlayCard($zombieChoice, $playerId, $args); // this function will return the transition to the next state
+    public function zombie(int $playerId): string
+    {
+        $args = $this->getArgs($playerId);
+        if ($args['revealRed']) {
+            return $this->actRevealRed($playerId, $args);
+        }
+        if ($args['soloValues'] !== []) {
+            $value = $this->getRandomZombieChoice($args['soloValues']);
+            return $this->actSoloCut($value, $playerId, $args);
+        }
+
+        $candidates = [];
+        foreach ($this->game->wires->getItemsInLocation('hand') as $wire) {
+            if (
+                (int)$wire->locationArg !== $playerId
+                && $wire->color !== 'red'
+                && in_array($wire->getValue(), $args['dualValues'], true)
+            ) {
+                $candidates[] = ['targetWireId' => $wire->id, 'value' => $wire->getValue()];
+            }
+        }
+        if ($candidates === []) {
+            throw new SystemException('Не найдено безопасное действие для зомби-игрока');
+        }
+        $choice = $this->getRandomZombieChoice($candidates);
+        return $this->actDualCut($choice['targetWireId'], $choice['value'], $playerId, $args);
+    }
+
+    private function afterRemovedWires(): string
+    {
+        if ($this->game->allHandsEmpty()) {
+            $this->game->setOutcome('success');
+            return EndScore::class;
+        }
+        return NextPlayer::class;
     }
 }
