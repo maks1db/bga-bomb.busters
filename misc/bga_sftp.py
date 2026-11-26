@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Помощник SFTP для BGA Studio; настройки читаются из .vscode/sftp.json.
+"""SFTP helper for BGA Studio; reads settings from .vscode/sftp.json.
 
-Использование:
-  bga_sftp.py ls [remote_dir]                    — показать удалённые файлы
-  bga_sftp.py get <remote> <local>               — скачать файл или каталог рекурсивно
-  bga_sftp.py put <local...> <remote_dir>        — загрузить файлы в удалённый каталог
+Usage:
+  bga_sftp.py ls [remote_dir]                    — list remote files
+  bga_sftp.py get <remote> <local>               — download a file or directory recursively
+  bga_sftp.py put <local...> <remote_dir>        — upload files to a remote directory
 """
 import json
 import os
