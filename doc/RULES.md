@@ -1,214 +1,214 @@
-# Bomb Busters — Rules
+# Bomb Busters — правила
 
-Source: `misc/BombBusters_rules_EN-web.pdf`, English rules v1.0 (2024), 8 pages.
-Game design: Hisashi Hayashi. Illustrations: Dom2D.
+Источник: `misc/BombBusters_rules_EN-web.pdf`, английская версия правил v1.0 (2024), 8 страниц.
+Автор игры: Хисаши Хаяши. Иллюстрации: Dom2D.
 
-This document follows the base rulebook. Mission-card instructions and card texts not printed in the rulebook are not included.
+Документ следует базовой книге правил. Инструкции на картах миссий и тексты карт, не напечатанные в книге правил, сюда не входят.
 
-## Game Components
+## Компоненты игры
 
-- 1 board with a dial. Install the dial on the board before the first game.
-- 70 Wire tiles:
-  - 48 blue wires: values 1–12, four copies of each.
-  - 11 red wires: values 1.5–11.5.
-  - 11 yellow wires: values 1.1–11.1.
-- 17 cards: 12 Equipment cards and 5 Character cards.
-- 5 tile stands.
-- 40 tokens:
-  - 26 Info tokens, including 2 yellow ones.
-  - 12 Validation tokens.
-  - 1 `=` token.
-  - 1 `≠` token.
-- 7 markers: 4 yellow and 3 red.
-- 5 Surprise boxes to open later.
-- 8 resealable bags.
-- 8 large Mission cards.
-- 1 Bomb Busters Standee, needed for mission 66.
-- 1 rulebook.
+- 1 игровое поле с циферблатом. Перед первой партией установите циферблат на поле.
+- 70 плиток проводов:
+  - 48 синих проводов: значения 1–12, по четыре копии каждого.
+  - 11 красных проводов: значения 1,5–11,5.
+  - 11 жёлтых проводов: значения 1,1–11,1.
+- 17 карт: 12 карт оборудования и 5 карт персонажей.
+- 5 подставок для плиток.
+- 40 жетонов:
+  - 26 информационных жетонов, включая 2 жёлтых.
+  - 12 жетонов подтверждения.
+  - 1 жетон `=`.
+  - 1 жетон `≠`.
+- 7 маркеров: 4 жёлтых и 3 красных.
+- 5 коробок «Сюрприз», которые открываются позже.
+- 8 пакетов с застёжкой.
+- 8 больших карт миссий.
+- 1 фигурка Bomb Busters, необходимая для миссии 66.
+- 1 книга правил.
 
-## Aim of the Game
+## Цель игры
 
-Bomb Busters is a cooperative game. Each player is a bomb disposal expert and all players together form one team. The objective is to defuse the assigned mission’s bomb together. The bomb explodes if a red wire is cut or if the detonator dial reaches the end.
+Bomb Busters — кооперативная игра. Каждый игрок — специалист по обезвреживанию бомб, а все вместе игроки образуют одну команду. Цель — сообща обезвредить бомбу выбранной миссии. Бомба взрывается, если перерезать красный провод или если циферблат детонатора дойдёт до конца.
 
-## Setup
+## Подготовка к игре
 
-### 1. Select a Mission
+### 1. Выберите миссию
 
-Select one Mission card. The missions get progressively more difficult. It is not required to play them in order, but it is strongly recommended to work through all of them to learn the game.
+Выберите одну карту миссии. Сложность миссий постепенно возрастает. Проходить их по порядку необязательно, но настоятельно рекомендуется пройти все миссии, чтобы полностью освоить игру.
 
-Training Missions:
+Обучающие миссии:
 
-- Novice (1–3): teach the basics.
-- Intermediate (4–7): teach more advanced concepts.
-- Expert (8): the final exam to pass training. Success unlocks the Mission 9–19 box.
+- Новичок (1–3): знакомят с основами.
+- Средний уровень (4–7): знакомят с более сложными понятиями.
+- Эксперт (8): выпускной экзамен обучения. После успеха можно открыть коробку с миссиями 9–19.
 
-### 2. Designate a Captain
+### 2. Назначьте капитана
 
-Designate a Captain at random for the first mission, then pass the responsibility of Captain to the left before each subsequent mission. Place the Captain character card in front of this player. Every other player places a Character card of their choice faceup in front of them.
+В первой миссии выберите капитана случайным образом, а перед каждой следующей миссией передавайте эту роль игроку слева. Положите перед этим игроком карту персонажа «Капитан». Каждый остальной игрок кладёт перед собой лицом вверх выбранную им карту персонажа.
 
-### 3. Read the Mission
+### 3. Ознакомьтесь с миссией
 
-The Captain reads the Mission card aloud and places it, flipped over, to the bottom left of the board so everyone can see the special rules.
+Капитан вслух зачитывает карту миссии и кладёт её перевёрнутой в левый нижний угол поля так, чтобы всем были видны особые правила.
 
-- Front: the mission’s setup instructions.
-- Back: the mission’s special rules. Each mission may introduce new rules not found in this rulebook.
+- Лицевая сторона: инструкции по подготовке миссии.
+- Оборотная сторона: особые правила миссии. Каждая миссия может вводить новые правила, отсутствующие в этой книге.
 
-### 4. Distribute Tile Stands
+### 4. Раздайте подставки для плиток
 
-| Players | Stands for Captain | Stands for each other player |
+| Игроки | Подставки капитана | Подставки каждого остального игрока |
 |---|---:|---:|
 | 2 | 2 | 2 |
 | 3 | 2 | 1 |
 | 4 | 1 | 1 |
 | 5 | 1 | 1 |
 
-### 5. Prepare the Mission’s Wire Tiles
+### 5. Подготовьте плитки проводов миссии
 
-1. Collect all 48 blue Wire tiles, except in training missions 1, 2, and 3.
-2. Take the number of red and yellow wires shown on the Mission card, drawing them at random.
-3. Look at the red and yellow tiles drawn and indicate their values by placing the appropriate red and/or yellow markers in the spaces on the board, blank side faceup, with the `?` symbol facedown.
-4. Shuffle all Wire tiles — blue, red, and yellow — together facedown.
+1. Возьмите все 48 синих плиток проводов, кроме обучающих миссий 1, 2 и 3.
+2. Случайным образом возьмите количество красных и жёлтых проводов, указанное на карте миссии.
+3. Посмотрите на взятые красные и жёлтые плитки и отметьте их значения, положив соответствующие красные и/или жёлтые маркеры в ячейки поля чистой стороной вверх, символом `?` вниз.
+4. Перемешайте все плитки проводов — синие, красные и жёлтые — лицом вниз.
 
-Some missions indicate the number of red and/or yellow wires as `1 out of 2`, `1 out of 3`, or `2 out of 3`. These wires are only partially known. For `2 out of 3 yellow wires`:
+В некоторых миссиях количество красных и/или жёлтых проводов указано как `1 из 2`, `1 из 3` или `2 из 3`. В этом случае провода известны лишь частично. Например, для `2 из 3 жёлтых проводов`:
 
-1. Reveal three yellow Wire tiles.
-2. Place three markers in matching board slots with their `?` side faceup to indicate that these numbers might be in play.
-3. Shuffle the three tiles facedown, add two of them facedown to the pile of blue tiles, and set the third tile aside, out of play, without revealing it.
+1. Вскройте три жёлтые плитки проводов.
+2. Положите три маркера в соответствующие ячейки поля стороной с `?` вверх, показывая, что эти значения могут участвовать в игре.
+3. Перемешайте три плитки лицом вниз, добавьте две из них лицом вниз к стопке синих плиток, а третью, не раскрывая, отложите вне игры.
 
-Only two of the three yellow wires seen are actually in play, but all three possibilities are indicated by `?` markers on the board.
+Таким образом, в игре участвуют только два из трёх увиденных жёлтых проводов, но маркеры `?` на поле обозначают все три возможности.
 
-### 6. Deal the Wires
+### 6. Раздайте провода
 
-Deal all wires facedown and as equally as possible among all tile stands. Some stands may have more tiles than others.
+Раздайте все провода лицом вниз и как можно более равномерно между всеми подставками. На некоторых подставках может оказаться больше плиток, чем на других.
 
-### 7. Arrange the Hands
+### 7. Разложите руки
 
-Each player takes their dealt wires and carefully places them in their tile stand. Tiles must face that player and be sorted from left to right in ascending order. Tiles on a stand are in that player’s hand.
+Каждый игрок берёт розданные ему провода и осторожно помещает их на свою подставку. Информация на плитках должна быть обращена к этому игроку, а плитки должны быть отсортированы слева направо по возрастанию. Плитки на подставке образуют руку этого игрока.
 
-When a player has two tile stands, deal, place, and sort the tiles separately for each stand. During the game, both stands together form that player’s hand for equipment, Info tokens, specific rules, and other purposes.
+Если у игрока две подставки, раздавайте, размещайте и сортируйте плитки на каждой подставке отдельно. Во время игры обе подставки вместе образуют руку игрока для оборудования, информационных жетонов, особых правил и других целей.
 
-The decimal values on red and yellow wires are used only for sorting in ascending order. During the game they have no numeric value and are simply `RED` or `YELLOW`.
+Десятичные значения на красных и жёлтых проводах используются только для сортировки по возрастанию. Во время игры они не имеют числового значения и считаются просто `КРАСНЫМ` или `ЖЁЛТЫМ`.
 
-### 8. Prepare the Board
+### 8. Подготовьте игровое поле
 
-- Take as many Equipment cards as there are players and place them faceup over the checkmark, since they cannot be used yet. This is the only equipment available for this game.
-- Set the detonator dial to the section matching the number of players.
-- Place all Info tokens and the 12 Validation tokens in their supply on the board.
+- Возьмите столько карт оборудования, сколько игроков участвует в игре, и положите их лицом вверх поверх галочки, поскольку использовать их пока нельзя. В этой партии доступно только это оборудование.
+- Установите циферблат детонатора на сектор, соответствующий количеству игроков.
+- Поместите все информационные жетоны и 12 жетонов подтверждения в их запас на поле.
 
-### 9. Place Initial Info Tokens
+### 9. Разместите начальные информационные жетоны
 
-Starting with the Captain and going clockwise, each player places an Info token of their choice on the table in front of their stand, pointing to one of the blue wires in their hand with the matching value.
+Начиная с капитана и далее по часовой стрелке, каждый игрок выбирает информационный жетон и кладёт его на стол перед своей подставкой, указывая на один из синих проводов в своей руке с соответствующим значением.
 
-The yellow Info token cannot be used during setup.
+Жёлтый информационный жетон нельзя использовать во время подготовки.
 
-A player with two tile stands still places only one Info token, in front of the stand and blue wire of their choice.
+Игрок с двумя подставками всё равно размещает только один информационный жетон перед выбранными им подставкой и синим проводом.
 
-## The Game
+## Ход игры
 
-Starting with the Captain and going clockwise, each player takes a turn. On their turn, the active player must perform one of three actions: Dual Cut, Solo Cut, or Reveal Your Red Wires.
+Начиная с капитана и далее по часовой стрелке, игроки ходят по очереди. В свой ход активный игрок должен выполнить одно из трёх действий: «Двойной разрез», «Одиночный разрез» или «Вскрыть свои красные провода».
 
-### Dual Cut Action
+### Действие «Двойной разрез»
 
-The active player must cut two identical wires: one of their own and one of a teammate. They point to a specific teammate’s wire and guess its value, for example, “This wire is a 9.”
+Активный игрок должен перерезать два одинаковых провода: один свой и один у напарника. Он явно указывает на конкретный провод напарника и называет предполагаемое значение, например: «Этот провод — 9».
 
-If the active player is correct, the action succeeds:
+Если активный игрок угадал, действие успешно:
 
-1. The teammate takes that wire and places it faceup in front of their tile stand without changing its position.
-2. The active player takes their identical wire — or one of them if they have several — and places it faceup in front of their tile stand.
+1. Напарник берёт этот провод и кладёт его лицом вверх перед своей подставкой, не меняя его положение.
+2. Затем активный игрок берёт свой одинаковый провод — или один из них, если у него несколько, — и кладёт его лицом вверх перед своей подставкой.
 
-If the active player is wrong, the action fails:
+Если активный игрок ошибся, действие проваливается:
 
-- If the wire in question is red, the bomb explodes and the mission ends in failure.
-- If the wire is blue or yellow, the detonator dial advances one space. The bomb explodes and the mission fails if the dial reaches the skull. The teammate places an Info token in front of the wire in question to show its real value.
+- Если указанный провод красный, бомба взрывается, а миссия завершается провалом.
+- Если провод синий или жёлтый, циферблат детонатора продвигается на одно деление. Если циферблат достигает черепа, бомба взрывается, а миссия завершается провалом. Напарник кладёт информационный жетон перед указанным проводом, показывая его истинное значение.
 
-The active player does not show which wire in their own hand they had wanted to cut.
+Активный игрок не показывает, какой провод в собственной руке он намеревался перерезать.
 
-### Solo Cut Action
+### Действие «Одиночный разрез»
 
-If the last identical wires still in the game appear only in the active player’s hand, they can cut those identical wires in pairs, either two or four, without involving another player.
+Если последние одинаковые провода, оставшиеся в игре, находятся только в руке активного игрока, он может перерезать их парами — два или четыре — без участия другого игрока.
 
-- A player with a full set of four can cut all four wires at once.
-- If a pair of wires of a given value has already been cut, the player can cut the remaining two matching wires in their hand.
+- Игрок, у которого есть полный набор из четырёх проводов, может перерезать все четыре сразу.
+- Если пара проводов данного значения уже была перерезана, игрок может перерезать оставшиеся два соответствующих провода в своей руке.
 
-The cut wires are placed faceup on the table in front of the tile stand.
+Перерезанные провода кладутся лицом вверх на стол перед подставкой.
 
-### Reveal Your Red Wires Action
+### Действие «Вскрыть свои красные провода»
 
-This action is available only if all of the active player’s remaining uncut wires are red. They reveal all of them, placing them faceup on the table in front of their tile stand.
+Это действие доступно, только если все оставшиеся неперерезанные провода активного игрока красные. Он вскрывает их все, кладя лицом вверх на стол перед своей подставкой.
 
-## Validation Tokens
+## Жетоны подтверждения
 
-As soon as all four wires of the same value have been cut, place one Validation token on the matching number on the board.
+Как только все четыре провода одного значения перерезаны, положите один жетон подтверждения на соответствующее число на поле.
 
-## Yellow Wires
+## Жёлтые провода
 
-Yellow wires are cut the same way as blue wires, using Dual or Solo Cut, but their numeric values are used only to sort tiles during setup. During the game, all yellow wires have the same value: `YELLOW`.
+Жёлтые провода перерезаются так же, как синие, действиями «Двойной разрез» или «Одиночный разрез», но их числовые значения используются только для сортировки плиток во время подготовки. Во время игры все жёлтые провода считаются имеющими одно значение: `ЖЁЛТЫЙ`.
 
-For a Dual Cut, the active player must have a yellow wire, point to a teammate’s wire, and say, “This wire is yellow.” If correct, the two wires are cut. Otherwise, as with blue wires, an Info token revealing the identified wire’s actual value is placed and the detonator dial advances one space.
+Для двойного разреза активный игрок должен иметь жёлтый провод в руке, указать на провод напарника и сказать: «Этот провод жёлтый». Если он прав, два провода перерезаются. В противном случае, как и с синими проводами, кладётся информационный жетон, раскрывающий истинное значение указанного провода, а циферблат детонатора продвигается на одно деление.
 
-- If a yellow wire is pointed at incorrectly, a yellow Info token is used and the detonator dial advances one space.
-- A Solo Cut with yellow wires is available only to a player who has all remaining yellow wires in their hand.
+- Если на жёлтый провод указали ошибочно, используется жёлтый информационный жетон, а циферблат детонатора продвигается на одно деление.
+- Одиночный разрез жёлтых проводов доступен только игроку, у которого в руке находятся все оставшиеся жёлтые провода.
 
-## Equipment Cards
+## Карты оборудования
 
-- A piece of equipment becomes usable as soon as two wires of the value shown in its top-left corner have been cut. Slide the card up to reveal the green checkmark.
-- Each equipment card can be used only once. Flip it facedown after use.
-- The card text describes when it can be used. Most equipment can be used at any time by anyone, even outside their turn. A player can use several equipment cards in a row.
-- X-ray or Y-ray equipment can be combined with Double Detector, Triple Detector, or Super Detector to indicate two values along with several wires.
+- Оборудование становится доступным, как только перерезаны два провода значения, указанного в левом верхнем углу карты. Сдвиньте карту вверх в её ячейке, открыв зелёную галочку.
+- Каждую карту оборудования можно использовать только один раз. После использования переверните её лицом вниз.
+- Текст карты описывает, когда её можно использовать. Большинство карт оборудования может использовать любой игрок в любое время, даже вне своего хода. Игрок может применить несколько карт оборудования подряд.
+- Оборудование «Рентген X» или «Рентген Y» можно объединять с «Двойным детектором», «Тройным детектором» или «Супердетектором», чтобы указать два значения вместе с несколькими проводами.
 
-## Character Cards
+## Карты персонажей
 
-Each player can use the personal equipment on their Character card once per mission. Flip the card facedown after use.
+Каждый игрок может использовать личное оборудование на своей карте персонажа один раз за миссию. После использования переверните карту лицом вниз.
 
-### Double Detector
+### Двойной детектор
 
-During a Dual Cut action, the active player states a value and points to two wires in a teammate’s stand instead of only one.
+Во время действия «Двойной разрез» активный игрок называет значение и указывает на два провода на подставке напарника вместо одного.
 
-If either wire matches the stated value, the action succeeds. If both wires match, the teammate does not share any details and chooses which of the two wires to cut.
+Если хотя бы один из двух проводов соответствует названному значению, действие успешно. Если оба провода соответствуют, напарник не сообщает никаких подробностей и просто выбирает, какой из двух выбранных проводов перерезать.
 
-If neither wire matches, the action fails:
+Если ни один из двух проводов не соответствует, действие проваливается:
 
-- The detonator dial advances one space.
-- The teammate places one Info token in front of one of the two chosen wires, their choice.
-- If only one of the two chosen wires is red, the bomb does not explode. The teammate does not share any details and places an Info token in front of the non-red wire.
+- Циферблат детонатора продвигается на одно деление.
+- Напарник по своему выбору кладёт один информационный жетон перед одним из двух выбранных проводов.
+- Если только один из двух выбранных проводов красный, бомба не взрывается. Напарник не сообщает никаких подробностей и кладёт информационный жетон перед проводом, который не является красным.
 
-## Clarifications
+## Разъяснения
 
-### No More Wires
+### Проводов не осталось
 
-When a player has no wires left in hand and their tile stand is empty, the mission continues without them. Skip that player’s turns and continue clockwise with the other players who still have wires.
+Когда у игрока не остаётся проводов в руке и его подставка пуста, миссия продолжается без него. Пропускайте ходы этого игрока и продолжайте по часовой стрелке с остальными игроками, у которых ещё есть провода.
 
-### Communication
+### Общение
 
-Communication is intentionally limited.
+Общение намеренно сильно ограничено.
 
-Forbidden:
+Запрещено:
 
-- Talking about the wires in one’s hand.
-- Implying their values.
-- Recalling information from previous turns.
-- Sharing guesses and assumptions aloud.
+- Говорить о проводах в своей руке.
+- Намекать на их значения.
+- Вспоминать информацию из предыдущих ходов.
+- Вслух делиться своими догадками и предположениями.
 
-Permitted at any time:
+Разрешено в любое время:
 
-- Discussing general tactics.
-- Discussing the use of equipment.
-- Recalling special rules.
-- Reminding a teammate to use Double Detector or other equipment.
+- Обсуждать общую тактику.
+- Обсуждать использование оборудования.
+- Вспоминать особые правила.
+- Напоминать напарнику использовать «Двойной детектор» или другое оборудование.
 
-## End of the Game
+## Конец игры
 
-The mission ends in success when all players have empty tile stands.
+Миссия завершается успехом, когда подставки всех игроков пусты.
 
-The mission ends in failure if a red wire is cut or the detonator dial advances to the skull space. After a failure, change which player is the Captain and restart the mission.
+Миссия завершается провалом, если перерезан красный провод или циферблат детонатора дошёл до ячейки с черепом. После провала смените капитана и начните миссию заново.
 
-After completing mission 8, the first Surprise box, containing missions 9–19, can be opened.
+После завершения миссии 8 можно открыть первую коробку «Сюрприз», содержащую миссии 9–19.
 
-## Quick Reference Reminders
+## Краткие напоминания
 
-- Each character has one personal equipment, usable once per game.
-- Equipment becomes usable the first time two wires of its shown value have been cut.
-- All yellow wires have the value `YELLOW`; all red wires have the value `RED`.
-- There are four copies of each blue value from 1 to 12. After all four wires of one value are cut, place a Validation token on the board.
-- Two tile stands belonging to one player count as a single hand.
-- Some Mission cards have a QR code leading to an audio file: <https://www.pegasusna.com/bombbusters-en>.
+- У каждого персонажа есть одно личное оборудование, которое можно использовать один раз за игру.
+- Оборудование становится доступным, когда впервые перерезаны два провода указанного на нём значения.
+- Все жёлтые провода имеют значение `ЖЁЛТЫЙ`; все красные — `КРАСНЫЙ`.
+- Существует четыре копии каждого синего значения от 1 до 12. После того как все четыре провода одного значения перерезаны, положите жетон подтверждения на поле.
+- Две подставки одного игрока считаются одной рукой.
+- На некоторых картах миссий есть QR-код со ссылкой на аудиофайл: <https://www.pegasusna.com/bombbusters-en>.

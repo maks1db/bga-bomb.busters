@@ -1,70 +1,72 @@
-# Bomb Busters — Handoff
+# Bomb Busters — сведения для продолжения работы
 
-Last updated: 2026-11-26
+Последнее обновление: 2026-11-26
 
-## Current Status
+## Текущее состояние
 
-The project is at the rules-analysis stage. No game logic has been implemented yet; the downloaded BGA Studio scaffold remains unchanged.
+Проект находится на этапе анализа правил. Игровая логика ещё не реализована; скачанный шаблон BGA Studio остаётся без изменений.
 
-- Downloaded all 26 files from the SFTP directory `/bombbusters` into the project root.
-- Verified every downloaded file against the server by size and SHA-256.
-- Read the project skill at `.claude/skills/board-game-arena/SKILL.md` and the rules-clarification reference.
-- Extracted and analyzed `misc/BombBusters_rules_EN-web.pdf` (English rules v1.0, 8 pages).
-- Created `doc/RULES.md`, `doc/AUTHOR_QUESTIONS.md`, and `doc/ASSUMPTIONS.md`.
-- Created two commits:
+- Все 26 файлов из SFTP-каталога `/bombbusters` скачаны в корень проекта.
+- Каждый скачанный файл проверен относительно серверной версии по размеру и SHA-256.
+- Изучены проектный скил `.claude/skills/board-game-arena/SKILL.md` и справочник по уточнению правил.
+- Извлечён и проанализирован текст `misc/BombBusters_rules_EN-web.pdf` (английская версия правил v1.0, 8 страниц).
+- Созданы `doc/RULES.md`, `doc/AUTHOR_QUESTIONS.md` и `doc/ASSUMPTIONS.md`.
+- Вся создаваемая проектная документация и сопроводительные сообщения должны быть на русском языке.
+- Созданы коммиты:
   - `49d4f5d` — `chore: import BGA Studio scaffold`
   - `422a218` — `docs: analyze Bomb Busters rules`
+  - `8806612` — `docs: add project handoff`
 
-## Rules Summary
+## Краткое описание правил
 
-Bomb Busters is a cooperative game for 2–5 players. Players cut matching blue or yellow wires through Dual Cut and Solo Cut actions, safely reveal red wires only when a hand contains nothing else, and win when every hand is empty. Cutting a red wire or advancing the detonator to the skull causes a shared loss.
+Bomb Busters — кооперативная игра для 2–5 игроков. Игроки перерезают одинаковые синие или жёлтые провода действиями «Двойной разрез» и «Одиночный разрез», безопасно вскрывают красные провода только тогда, когда в руке не осталось других проводов, и побеждают, когда все руки пусты. Перерезание красного провода или продвижение детонатора до черепа приводит к общему поражению.
 
-The base rules are in `doc/RULES.md`. Interpretations must not be added to that file; working assumptions belong in `doc/ASSUMPTIONS.md` and must remain linked to `doc/AUTHOR_QUESTIONS.md`.
+Базовые правила находятся в `doc/RULES.md`. В этот файл нельзя добавлять интерпретации; рабочие допущения должны находиться в `doc/ASSUMPTIONS.md` и сохранять связь с `doc/AUTHOR_QUESTIONS.md`.
 
-## Graphics and UI
+## Графика и интерфейс
 
-No game graphics are available yet. This does not block development.
+Игровой графики пока нет. Это не блокирует разработку.
 
-Use a functional HTML/CSS interface with text-based placeholders:
+Следует использовать функциональный HTML/CSS-интерфейс с текстовыми заглушками:
 
-- wires as colored text tiles;
-- hands, the detonator, and markers as regular DOM elements;
-- Equipment and Character cards as text cards.
+- провода — цветные текстовые плитки;
+- руки, детонатор и маркеры — обычные DOM-элементы;
+- карты оборудования и персонажей — текстовые карточки.
 
-Keep rendering separate from game logic so final artwork can replace placeholders without rewriting the rules implementation.
+Отображение необходимо отделять от игровой логики, чтобы готовые изображения позже заменили заглушки без переписывания реализации правил.
 
-## Open Questions
+## Открытые вопросы
 
-The following items are still OPEN in `doc/AUTHOR_QUESTIONS.md`:
+Следующие пункты остаются в статусе OPEN в `doc/AUTHOR_QUESTIONS.md`:
 
-1. **Q1:** Mission, Equipment, and Character card contents are missing. Scans, photos, or faithful transcriptions are needed.
-2. **Q2:** Numeric detonator starting positions and loss thresholds for 2–5 players are missing.
-3. **Q3:** The rules do not explain Solo Cut when one or three yellow wires remain in one hand.
+1. **Q1:** отсутствует содержание карт миссий, оборудования и персонажей. Нужны сканы, фотографии или точные текстовые переписи.
+2. **Q2:** отсутствуют числовые начальные позиции детонатора и пороги поражения для 2–5 игроков.
+3. **Q3:** правила не описывают одиночный разрез, когда в одной руке остаётся один или три жёлтых провода.
 
-Six additional questions have working assumptions. Seven hypotheses, H1–H7, are recorded in `doc/ASSUMPTIONS.md`.
+Ещё шесть вопросов имеют рабочие допущения. Семь гипотез H1–H7 записаны в `doc/ASSUMPTIONS.md`.
 
-## Known Scaffold Mismatches
+## Известные несоответствия шаблона
 
-`gameinfos.jsonc` still contains template metadata:
+`gameinfos.jsonc` всё ещё содержит шаблонные метаданные:
 
-- `game_name` is `My Great Game`;
-- players are `[2, 3, 4]`, while the rules support 2–5;
-- `is_coop` is `0`, while the game is cooperative.
+- `game_name` имеет значение `My Great Game`;
+- указаны игроки `[2, 3, 4]`, тогда как правила поддерживают 2–5;
+- `is_coop` имеет значение `0`, тогда как игра кооперативная.
 
-There is no project `Makefile` yet. SFTP connectivity has been confirmed using the Paramiko helper and configuration approach from the neighboring `bga-big.top` project. Do not record credentials or private-key contents in this file.
+Проектный `Makefile` ещё не создан. SFTP-подключение проверено с помощью Paramiko и подхода к настройке из соседнего проекта `bga-big.top`. Не записывать в этот файл учётные данные или содержимое закрытых ключей.
 
-## Verification Performed
+## Выполненные проверки
 
-- Recursive server/local comparison: 26 files, no missing files, size mismatches, or SHA-256 mismatches.
-- Markdown checks: final newlines, trailing whitespace, and question/assumption cross-references passed.
-- `git diff --check` passed for the rules documents. The unchanged BGA-generated scaffold contains pre-existing whitespace warnings and was imported verbatim.
-- No PHP/JS checks, deployment, or real BGA table test has been performed because game implementation has not started.
+- Рекурсивное сравнение сервера и локальной копии: 26 файлов, отсутствующих файлов, различий размера и SHA-256 нет.
+- Проверки Markdown: финальные переводы строк, пробелы в концах строк и перекрёстные ссылки между вопросами и допущениями пройдены.
+- `git diff --check` пройден для документов с правилами. Неизменённый автоматически созданный шаблон BGA содержит исходные предупреждения о пробелах и был импортирован без перезаписи.
+- Проверки PHP/JS, деплой и тест реального стола BGA не выполнялись, поскольку реализация игры ещё не началась.
 
-## Next Steps
+## Следующие шаги
 
-1. Configure project metadata and add `make check` / `make deploy` support.
-2. Obtain Mission 1 setup data and the required Equipment/Character card texts.
-3. Define the wire/item model and mission configuration.
-4. Implement setup and the basic turn states with placeholder UI.
-5. Deploy and test a real hotseat table on BGA Studio.
-6. Update this handoff after each completed development stage, including verification results and new blockers.
+1. Настроить метаданные проекта и добавить поддержку `make check` / `make deploy`.
+2. Получить данные подготовки миссии 1 и тексты необходимых карт оборудования и персонажей.
+3. Определить модель проводов и компонентов, а также конфигурацию миссии.
+4. Реализовать подготовку и базовые состояния ходов с интерфейсом-заглушкой.
+5. Выполнить деплой и протестировать настоящий стол с поочередной игрой за нескольких участников на BGA Studio.
+6. Обновлять этот документ после каждого завершённого этапа разработки, включая результаты проверок и новые препятствия.

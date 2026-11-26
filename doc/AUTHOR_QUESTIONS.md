@@ -1,113 +1,113 @@
-# Bomb Busters — Questions for the Authors
+# Bomb Busters — вопросы авторам
 
-A digital implementation needs an explicit outcome for every situation, including rare ones. The questions below concern rules or components that are not fully specified by the base rulebook. Working assumptions are listed separately so development can continue where a reasonable default exists.
+Цифровой реализации требуется явный результат для каждой ситуации, включая редкие. Вопросы ниже относятся к правилам или компонентам, которые базовая книга правил описывает не полностью. Рабочие допущения перечислены отдельно, чтобы разработка могла продолжаться там, где существует разумный вариант по умолчанию.
 
-## Open Questions (OPEN)
+## Открытые вопросы (OPEN)
 
-### Q1. [RULES-MISSING] Mission, Equipment, and Character card content
+### Q1. [RULES-MISSING] Содержание карт миссий, оборудования и персонажей
 
-**Status:** OPEN
+**Статус:** OPEN
 
-**What the rules say:** “The Captain reads the Mission card aloud… Each mission may introduce new rules not found in this rulebook.” The components also include 12 Equipment cards and 5 Character cards, but the rulebook explains only Captain and Double Detector.
+**Что говорят правила:** «Капитан вслух зачитывает карту миссии… Каждая миссия может вводить новые правила, отсутствующие в этой книге». Компоненты также включают 12 карт оборудования и 5 карт персонажей, но книга правил описывает только «Капитана» и «Двойной детектор».
 
-**The problem:** The base PDF does not contain the setup or special rules of missions 1–8, the number of blue/red/yellow wires used by each mission, or the texts of most Equipment and Character cards.
+**Проблема:** Базовый PDF не содержит инструкций по подготовке и особых правил миссий 1–8, количества синих, красных и жёлтых проводов для каждой миссии, а также текстов большинства карт оборудования и персонажей.
 
-**What would help:** Scans, photos, or faithful transcriptions of both sides of the Mission cards and of all Equipment and Character cards. Please also indicate which missions beyond the training campaign should be included in the digital version.
+**Что поможет:** Сканы, фотографии или точные текстовые переписи обеих сторон карт миссий и всех карт оборудования и персонажей. Также нужно указать, какие миссии помимо обучающей кампании должны войти в цифровую версию.
 
-### Q2. [RULES-VISUAL] Detonator dial positions and loss threshold
+### Q2. [RULES-VISUAL] Позиции циферблата детонатора и порог поражения
 
-**Status:** OPEN
+**Статус:** OPEN
 
-**What the rules say:** “Set the detonator dial to the section matching the number of bomb disposal experts” and “the bomb explodes if the dial reaches the skull.”
+**Что говорят правила:** «Установите циферблат детонатора на сектор, соответствующий количеству специалистов» и «бомба взрывается, если циферблат достигает черепа».
 
-**The problem:** The text does not provide numeric starting positions, the number of advances required to reach the skull, or whether the track differs by player count beyond its starting section.
+**Проблема:** Текст не содержит числовых начальных позиций, количества продвижений до черепа и сведений о том, отличается ли шкала при разном количестве игроков чем-либо помимо начального сектора.
 
-**What would help:** A clear board/dial image or a table giving, for each player count from 2 to 5, the starting position and the number of failed cuts that reaches the skull.
+**Что поможет:** Чёткое изображение поля и циферблата или таблица, указывающая для каждого количества игроков от 2 до 5 начальную позицию и число неудачных разрезов, приводящих к черепу.
 
-### Q3. [RULES-AMBIGUOUS] Solo Cut with an odd number of remaining yellow wires
+### Q3. [RULES-AMBIGUOUS] Одиночный разрез при нечётном числе оставшихся жёлтых проводов
 
-**Status:** OPEN
+**Статус:** OPEN
 
-**What the rules say:** Solo Cut cuts “those identical wires in pairs (either 2 or 4).” Yellow Solo Cut is available when a player “has all the remaining yellow wires in their hand.” Missions can bring an odd number of yellow wires into play, such as “1 out of 2” or “1 out of 3.”
+**Что говорят правила:** При одиночном разрезе игрок перерезает «эти одинаковые провода парами — два или четыре». Одиночный разрез жёлтых проводов доступен, когда игрок имеет «все оставшиеся жёлтые провода в своей руке». В миссиях может участвовать нечётное число жёлтых проводов, например `1 из 2` или `1 из 3`.
 
-**The problem:** A player can eventually hold one or three remaining yellow wires while no other player has yellow wires. Cutting a pair can leave one yellow wire that cannot be Solo Cut and has no teammate’s yellow wire for a Dual Cut.
+**Проблема:** В конце игрок может держать один или три оставшихся жёлтых провода, когда у остальных игроков жёлтых проводов нет. После разреза пары может остаться один жёлтый провод, который нельзя перерезать одиночным действием и для которого нет жёлтого провода напарника для двойного разреза.
 
-**What would help:** The intended outcome for one or three remaining yellow wires in one hand: whether they can be cut together, whether one can be cut alone, or whether another rule prevents this position.
+**Что поможет:** Нужен предусмотренный результат для одного или трёх оставшихся жёлтых проводов в одной руке: можно ли перерезать их вместе, можно ли перерезать один по отдельности или другое правило исключает такую позицию.
 
-## Questions with Working Assumptions (ASSUMED)
+## Вопросы с рабочими допущениями (ASSUMED)
 
-### Q4. [RULES-MISSING] Initial Info token when a player has no blue wire
+### Q4. [RULES-MISSING] Начальный информационный жетон при отсутствии синих проводов
 
-**Status:** ASSUMED → [H1] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H1] в `ASSUMPTIONS.md`
 
-**What the rules say:** Each player places an Info token pointing to “one of the blue wires in their hand.”
+**Что говорят правила:** Каждый игрок размещает информационный жетон, указывающий на «один из синих проводов в своей руке».
 
-**The problem:** A random deal can give a player only red and/or yellow wires, especially in missions using fewer blue wires.
+**Проблема:** При случайной раздаче игрок может получить только красные и/или жёлтые провода, особенно в миссиях с меньшим количеством синих проводов.
 
-**Our assumption:** That player skips the initial Info-token placement.
+**Наше допущение:** Такой игрок пропускает размещение начального информационного жетона.
 
-**Impact if wrong:** Setup needs a different legal choice or a reroll rule.
+**Последствия ошибки:** Для подготовки потребуется другой допустимый выбор или правило пересдачи.
 
-### Q5. [RULES-MISSING] Selecting the Equipment cards for a mission
+### Q5. [RULES-MISSING] Выбор карт оборудования для миссии
 
-**Status:** ASSUMED → [H2] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H2] в `ASSUMPTIONS.md`
 
-**What the rules say:** “Take as many Equipment cards as there are bomb disposal experts… This is the only equipment available for this game.”
+**Что говорят правила:** «Возьмите столько карт оборудования, сколько специалистов участвует… В этой партии доступно только это оборудование».
 
-**The problem:** The base rules do not say whether these cards are chosen, drafted, ordered by the mission, or drawn randomly.
+**Проблема:** Базовые правила не сообщают, выбираются ли эти карты игроками, раздаются по очереди, задаются миссией или берутся случайно.
 
-**Our assumption:** Unless a Mission card specifies particular equipment, draw the required number randomly without replacement.
+**Наше допущение:** Если карта миссии не задаёт конкретное оборудование, необходимое число карт берётся случайно без повторений.
 
-**Impact if wrong:** Mission setup and the equipment-selection interface will need adjustment.
+**Последствия ошибки:** Потребуется изменить подготовку миссии и интерфейс выбора оборудования.
 
-### Q6. [RULES-AMBIGUOUS] Double Detector across two tile stands
+### Q6. [RULES-AMBIGUOUS] Двойной детектор при двух подставках
 
-**Status:** ASSUMED → [H3] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H3] в `ASSUMPTIONS.md`
 
-**What the rules say:** Double Detector points to “2 wires in a teammate’s stand,” while another rule says that two stands together form one hand.
+**Что говорят правила:** «Двойной детектор» указывает на «два провода на подставке напарника», тогда как другое правило говорит, что две подставки вместе образуют одну руку.
 
-**The problem:** It is not explicit whether the two selected wires may be on different stands belonging to the same teammate.
+**Проблема:** Не уточняется, могут ли два выбранных провода находиться на разных подставках одного напарника.
 
-**Our assumption:** They may be selected from either or both stands of that teammate because the two stands form one hand.
+**Наше допущение:** Их можно выбирать на любой или на обеих подставках этого напарника, поскольку две подставки образуют одну руку.
 
-**Impact if wrong:** Double Detector targeting must be restricted to one selected stand.
+**Последствия ошибки:** Выбор целей «Двойного детектора» придётся ограничить одной подставкой.
 
-### Q7. [RULES-IMPLICIT] Double Detector when red wires are selected
+### Q7. [RULES-IMPLICIT] Двойной детектор при выборе красных проводов
 
-**Status:** ASSUMED → [H4] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H4] в `ASSUMPTIONS.md`
 
-**What the rules say:** A match makes the action succeed. On failure, “If only 1 of the 2 chosen wires is red, the bomb does not explode,” and the Info token identifies the non-red wire.
+**Что говорят правила:** Совпадение делает действие успешным. При провале: «Если только один из двух выбранных проводов красный, бомба не взрывается», а информационный жетон указывает провод, который не является красным.
 
-**The problem:** The outcomes for one red wire plus one matching wire, and for two red wires, are not stated in separate examples.
+**Проблема:** Результаты для одного красного и одного подходящего провода, а также для двух красных проводов, не показаны в отдельных примерах.
 
-**Our assumption:** A matching non-red wire makes the action succeed without cutting the red wire. If neither wire matches, one red wire is safe as described, but two red wires cause an explosion.
+**Наше допущение:** Подходящий некрасный провод делает действие успешным без перерезания красного. Если совпадений нет, один красный провод безопасен, как указано в правилах, но два красных провода вызывают взрыв.
 
-**Impact if wrong:** Double Detector resolution and loss handling need adjustment.
+**Последствия ошибки:** Потребуется изменить обработку «Двойного детектора» и условий поражения.
 
-### Q8. [RULES-IMPLICIT] Naming RED during a Dual Cut
+### Q8. [RULES-IMPLICIT] Называние значения «КРАСНЫЙ» при двойном разрезе
 
-**Status:** ASSUMED → [H5] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H5] в `ASSUMPTIONS.md`
 
-**What the rules say:** All red wires have the same value, `RED`, but there is a separate Reveal Your Red Wires action. The quick reference says, “Red wire: the bomb explodes!”
+**Что говорят правила:** Все красные провода имеют одно значение `КРАСНЫЙ`, но существует отдельное действие «Вскрыть свои красные провода». Краткая памятка гласит: «Красный провод: бомба взрывается!»
 
-**The problem:** The base action description does not explicitly say whether a player may declare `RED` as the guessed value in a Dual Cut.
+**Проблема:** Базовое описание действия не уточняет напрямую, можно ли объявить `КРАСНЫЙ` в качестве предполагаемого значения при двойном разрезе.
 
-**Our assumption:** `RED` is not a legal declared value for Dual or Solo Cut. Red wires are removed safely only through Reveal Your Red Wires; cutting one otherwise causes failure.
+**Наше допущение:** `КРАСНЫЙ` нельзя объявлять при двойном или одиночном разрезе. Красные провода безопасно убираются только действием «Вскрыть свои красные провода»; их перерезание другим способом приводит к поражению.
 
-**Impact if wrong:** The legal-action validation must allow red Dual Cuts and define their outcome.
+**Последствия ошибки:** Проверка допустимых действий должна будет разрешить двойной разрез красных проводов и определить его результат.
 
-### Q9. [RULES-MISSING] Info-token supply and already identified wires
+### Q9. [RULES-MISSING] Запас информационных жетонов и уже опознанные провода
 
-**Status:** ASSUMED → [H6] and [H7] in `ASSUMPTIONS.md`
+**Статус:** ASSUMED → [H6] и [H7] в `ASSUMPTIONS.md`
 
-**What the rules say:** A failed Dual Cut places an Info token showing the target wire’s true value. The game contains 26 Info tokens, including only two yellow ones.
+**Что говорят правила:** При неудачном двойном разрезе кладётся информационный жетон, показывающий истинное значение выбранного провода. В игре 26 информационных жетонов, включая только два жёлтых.
 
-**The problem:** The rules do not cover exhaustion of a particular token type or another failed guess targeting a wire that already has its Info token.
+**Проблема:** Правила не описывают исчерпание жетонов определённого типа и повторную неудачную попытку угадать провод, перед которым уже лежит его информационный жетон.
 
-**Our assumption:** Information display is not a limiting resource in the digital version. A wire holds at most one Info token; a repeated failed guess still advances the dial but leaves the existing token unchanged.
+**Наше допущение:** Отображение информации не является ограниченным ресурсом в цифровой версии. У провода может быть не более одного информационного жетона; повторная неудачная попытка всё равно продвигает циферблат, но оставляет существующий жетон без изменений.
 
-**Impact if wrong:** Token inventory and duplicate-token handling must enforce the physical limits or another supplied rule.
+**Последствия ошибки:** Учёт жетонов и обработка повторов должны будут учитывать физические ограничения или другое предоставленное правило.
 
-## Closed Questions (CLOSED)
+## Закрытые вопросы (CLOSED)
 
-None yet.
+Пока нет.

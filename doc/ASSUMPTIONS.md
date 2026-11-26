@@ -1,11 +1,11 @@
-# Bomb Busters — Implementation Assumptions
+# Bomb Busters — допущения для реализации
 
-These are working assumptions, not additional rules. Each one is linked to a question in `AUTHOR_QUESTIONS.md` and must be revisited when an answer is available.
+Это рабочие допущения, а не дополнительные правила. Каждое связано с вопросом в `AUTHOR_QUESTIONS.md` и должно быть пересмотрено после получения ответа.
 
-- **[H1] No blue wire at setup:** a player with no blue wire skips initial Info-token placement. Ref: Q4.
-- **[H2] Equipment selection:** unless specified by the Mission card, Equipment cards are drawn randomly without replacement, one per player. Ref: Q5.
-- **[H3] Double Detector and double stands:** the two targets may be anywhere in the teammate’s hand, including different stands owned by that teammate. Ref: Q6.
-- **[H4] Double Detector and red wires:** one matching non-red wire makes the action succeed safely. On failure, one red wire does not explode and the non-red wire receives the Info token; two red wires cause an explosion. Ref: Q7.
-- **[H5] Red-wire actions:** `RED` cannot be declared for Dual Cut or used for Solo Cut. Red wires are removed safely only by Reveal Your Red Wires when all remaining wires in that hand are red. Ref: Q8.
-- **[H6] Info-token supply:** the digital interface does not run out of Info tokens; the physical token count does not restrict information display. Ref: Q9.
-- **[H7] Already identified wires:** a wire has at most one Info token. A repeated failed guess still advances the detonator but does not add or replace a token. Ref: Q9.
+- **[H1] Нет синего провода во время подготовки:** игрок без синих проводов пропускает размещение начального информационного жетона. Ссылка: Q4.
+- **[H2] Выбор оборудования:** если карта миссии не задаёт оборудование, карты берутся случайно без повторений, по одной на игрока. Ссылка: Q5.
+- **[H3] Двойной детектор и две подставки:** обе цели могут находиться в любом месте руки напарника, включая разные подставки этого игрока. Ссылка: Q6.
+- **[H4] Двойной детектор и красные провода:** один подходящий некрасный провод делает действие успешным и безопасным. При провале один красный провод не вызывает взрыв, а информационный жетон получает некрасный провод; два красных провода вызывают взрыв. Ссылка: Q7.
+- **[H5] Действия с красными проводами:** `КРАСНЫЙ` нельзя объявлять при двойном разрезе или использовать при одиночном. Красные провода безопасно убираются только действием «Вскрыть свои красные провода», когда все оставшиеся провода в этой руке красные. Ссылка: Q8.
+- **[H6] Запас информационных жетонов:** в цифровом интерфейсе информационные жетоны не заканчиваются; их физическое количество не ограничивает отображение информации. Ссылка: Q9.
+- **[H7] Уже опознанные провода:** у провода может быть не более одного информационного жетона. Повторная неудачная попытка всё равно продвигает детонатор, но не добавляет и не заменяет жетон. Ссылка: Q9.
