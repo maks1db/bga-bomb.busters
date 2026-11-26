@@ -21,8 +21,8 @@ class EndScore extends GameState
         $outcome = (string)$this->globals->get('outcome', 'detonator');
         $win = $outcome === 'success';
         $message = $win
-            ? clienttranslate('Все провода убраны с подставок. Миссия выполнена!')
-            : clienttranslate('Миссия завершилась провалом.');
+            ? clienttranslate('All tile stands are empty. Mission accomplished!')
+            : clienttranslate('Mission failed.');
         $this->notify->all('missionEnded', $message, ['outcome' => $outcome]);
 
         return GameResult::coop(score: $win ? 1 : 0, win: $win);

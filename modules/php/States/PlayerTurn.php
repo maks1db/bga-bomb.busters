@@ -28,15 +28,15 @@ class PlayerTurn extends GameState
     public function actDualCut(int $targetWireId, string $value, int $activePlayerId, array $args): string
     {
         if (!in_array($value, $args['dualValues'], true)) {
-            throw new UserException(clienttranslate('Это значение нельзя выбрать для двойного разреза'));
+            throw new UserException(clienttranslate('This value cannot be used for a Dual Cut'));
         }
         $target = $this->game->wires->getItemById($targetWireId);
         if ($target === null || $target->location !== 'hand' || (int)$target->locationArg === $activePlayerId) {
-            throw new UserException(clienttranslate('Выберите провод другого игрока'));
+            throw new UserException(clienttranslate('Choose a wire belonging to another player'));
         }
         $ownWires = $this->game->getOwnWiresByValue($activePlayerId, $value);
         if ($ownWires === []) {
-            throw new UserException(clienttranslate('В вашей руке нет провода с этим значением'));
+            throw new UserException(clienttranslate('You do not have a wire with this value'));
         }
         $own = $ownWires[0];
         $targetOwnerId = (int)$target->locationArg;
@@ -46,8 +46,8 @@ class PlayerTurn extends GameState
             $this->game->wires->moveItem($own, ['cut', $activePlayerId]);
             $validatedValues = $this->game->updateValidatedValues();
             $message = $value === 'yellow'
-                ? clienttranslate('${player_name} успешно перерезает два жёлтых провода')
-                : clienttranslate('${player_name} успешно перерезает два провода со значением ${value}');
+                ? clienttranslate('${player_name} successfully cuts two yellow wires')
+                : clienttranslate('${player_name} successfully cuts two wires with value ${value}');
             $this->notify->all('dualCutSuccess', $message, [
                 'player_id' => $activePlayerId,
                 'player_name' => $this->game->getPlayerNameById($activePlayerId),
@@ -64,7 +64,7 @@ class PlayerTurn extends GameState
         if ($target->color === 'red') {
             $this->game->wires->moveItem($target, ['cut', $targetOwnerId]);
             $this->game->setOutcome('red');
-            $this->notify->all('redWireExploded', clienttranslate('${player_name} перерезает красный провод. Бомба взрывается!'), [
+            $this->notify->all('redWireExploded', clienttranslate('${player_name} cuts a red wire. The bomb explodes!'), [
                 'player_id' => $activePlayerId,
                 'player_name' => $this->game->getPlayerNameById($activePlayerId),
                 'wire' => $this->game->getWireData($target, true),
@@ -75,7 +75,7 @@ class PlayerTurn extends GameState
         $detonator = $this->game->advanceDetonator();
         if ($detonator >= Game::DETONATOR_MAX) {
             $this->game->setOutcome('detonator');
-            $this->notify->all('detonatorExploded', clienttranslate('Детонатор достигает черепа. Бомба взрывается!'), [
+            $this->notify->all('detonatorExploded', clienttranslate('The detonator reaches the skull. The bomb explodes!'), [
                 'detonator' => $detonator,
             ]);
             return EndScore::class;
@@ -83,7 +83,7 @@ class PlayerTurn extends GameState
 
         $target->infoRevealed = true;
         $this->game->wires->updateItem($target, 'infoRevealed');
-        $this->notify->all('dualCutFailure', clienttranslate('Значение не совпало. Детонатор продвигается, а провод получает информационный жетон'), [
+        $this->notify->all('dualCutFailure', clienttranslate('The value does not match. The detonator advances and the wire receives an Info token'), [
             'player_id' => $activePlayerId,
             'player_name' => $this->game->getPlayerNameById($activePlayerId),
             'wire' => $this->game->getWireData($target, false),
@@ -96,14 +96,14 @@ class PlayerTurn extends GameState
     public function actSoloCut(string $value, int $activePlayerId, array $args): string
     {
         if (!in_array($value, $args['soloValues'], true)) {
-            throw new UserException(clienttranslate('Эти провода нельзя перерезать одиночным действием'));
+            throw new UserException(clienttranslate('These wires cannot be cut with a Solo Cut'));
         }
         $wires = $this->game->getOwnWiresByValue($activePlayerId, $value);
         $this->game->wires->moveItems($wires, ['cut', $activePlayerId]);
         $validatedValues = $this->game->updateValidatedValues();
         $message = $value === 'yellow'
-            ? clienttranslate('${player_name} перерезает оставшиеся жёлтые провода')
-            : clienttranslate('${player_name} перерезает оставшиеся провода со значением ${value}');
+            ? clienttranslate('${player_name} cuts the remaining yellow wires')
+            : clienttranslate('${player_name} cuts the remaining wires with value ${value}');
         $this->notify->all('soloCut', $message, [
             'player_id' => $activePlayerId,
             'player_name' => $this->game->getPlayerNameById($activePlayerId),
@@ -121,11 +121,11 @@ class PlayerTurn extends GameState
     public function actRevealRed(int $activePlayerId, array $args): string
     {
         if (!$args['revealRed']) {
-            throw new UserException(clienttranslate('Красные провода можно вскрыть, только когда в руке не осталось других проводов'));
+            throw new UserException(clienttranslate('You can reveal red wires only when no other wires remain in your hand'));
         }
         $wires = $this->game->wires->getItemsInLocation(['hand', $activePlayerId])->values();
         $this->game->wires->moveItems($wires, ['revealed', $activePlayerId]);
-        $this->notify->all('redWiresRevealed', clienttranslate('${player_name} безопасно вскрывает свои красные провода'), [
+        $this->notify->all('redWiresRevealed', clienttranslate('${player_name} safely reveals their red wires'), [
             'player_id' => $activePlayerId,
             'player_name' => $this->game->getPlayerNameById($activePlayerId),
             'wires' => array_map(
@@ -158,7 +158,7 @@ class PlayerTurn extends GameState
             }
         }
         if ($candidates === []) {
-            throw new SystemException('Не найдено безопасное действие для зомби-игрока');
+            throw new SystemException('No safe action found for the zombie player');
         }
         $choice = $this->getRandomZombieChoice($candidates);
         return $this->actDualCut($choice['targetWireId'], $choice['value'], $playerId, $args);

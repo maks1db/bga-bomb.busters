@@ -39,12 +39,12 @@ class SetupInfo extends GameState
             || (int)$wire->locationArg !== $currentPlayerId
             || $wire->color !== 'blue'
         ) {
-            throw new UserException(clienttranslate('Выберите синий провод из своей руки'));
+            throw new UserException(clienttranslate('Choose a blue wire from your hand'));
         }
 
         $wire->infoRevealed = true;
         $this->game->wires->updateItem($wire, 'infoRevealed');
-        $this->notify->all('initialInfo', clienttranslate('${player_name} размещает начальный информационный жетон'), [
+        $this->notify->all('initialInfo', clienttranslate('${player_name} places their initial Info token'), [
             'player_id' => $currentPlayerId,
             'player_name' => $this->game->getPlayerNameById($currentPlayerId),
             'wire' => $this->game->getWireData($wire, false),
@@ -60,7 +60,7 @@ class SetupInfo extends GameState
             static fn(Wire $wire): bool => $wire->color === 'blue',
         ));
         if ($choices === []) {
-            throw new SystemException('У игрока нет синего провода для начального информационного жетона');
+            throw new SystemException('The player has no blue wire for the initial Info token');
         }
         $wire = $this->getRandomZombieChoice($choices);
         return $this->actChooseInitialInfo($wire->id, $playerId);

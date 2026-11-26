@@ -11,8 +11,8 @@ class SetupInfo {
     onPlayerActivationChange(args, isCurrentPlayerActive) {
         this.game.setupSelectionEnabled = isCurrentPlayerActive;
         this.bga.statusBar.setTitle(isCurrentPlayerActive
-            ? _('${you} должны выбрать синий провод для начального информационного жетона')
-            : _('Ожидание выбора начальных информационных жетонов'));
+            ? _('${you} must choose a blue wire for the initial Info token')
+            : _('Waiting for the initial Info tokens'));
         this.game.renderAll();
     }
 
@@ -31,18 +31,18 @@ class PlayerTurn {
         this.game.playerTurnActive = isCurrentPlayerActive;
         this.game.selectedDualValue = null;
         this.bga.statusBar.setTitle(isCurrentPlayerActive
-            ? _('${you} должны выполнить действие с проводами')
-            : _('${actplayer} выполняет действие с проводами'));
+            ? _('${you} must perform a wire action')
+            : _('${actplayer} must perform a wire action'));
 
         if (isCurrentPlayerActive) {
             args.soloValues.forEach(value => {
-                const label = _('Одиночный разрез: ${value}').replace('${value}', this.game.valueLabel(value));
+                const label = _('Solo Cut: ${value}').replace('${value}', this.game.valueLabel(value));
                 this.bga.statusBar.addActionButton(label, () => {
                     this.bga.actions.performAction('actSoloCut', { value });
                 });
             });
             if (args.revealRed) {
-                this.bga.statusBar.addActionButton(_('Вскрыть свои красные провода'), () => {
+                this.bga.statusBar.addActionButton(_('Reveal Your Red Wires'), () => {
                     this.bga.actions.performAction('actRevealRed');
                 }, { color: 'secondary' });
             }
@@ -71,7 +71,7 @@ export class Game {
         this.bga.gameArea.getElement().insertAdjacentHTML('beforeend', `
             <div id="bb-game" class="bombbusters_game">
                 <section class="bombbusters_panel">
-                    <h2>Тестовая миссия</h2>
+                    <h2>Practice Mission</h2>
                     <div id="bb-outcome"></div>
                     <div id="bb-detonator"></div>
                     <div id="bb-special-wires"></div>
@@ -79,7 +79,7 @@ export class Game {
                 </section>
                 <div id="bb-selection" class="bombbusters_selection"></div>
                 <section class="bombbusters_panel">
-                    <h2>Перерезанные и вскрытые провода</h2>
+                    <h2>Cut and Revealed Wires</h2>
                     <div id="bb-cut-wires" class="bombbusters_wire_list"></div>
                 </section>
                 <div id="bb-players"></div>
@@ -106,9 +106,9 @@ export class Game {
     renderOutcome() {
         const outcome = this.gamedatas.outcome;
         const messages = {
-            success: 'Миссия выполнена!',
-            red: 'Перерезан красный провод. Миссия провалена.',
-            detonator: 'Детонатор достиг черепа. Миссия провалена.',
+            success: 'Mission accomplished!',
+            red: 'A red wire was cut. Mission failed.',
+            detonator: 'The detonator reached the skull. Mission failed.',
         };
         document.getElementById('bb-outcome').innerHTML = outcome
             ? `<div class="bombbusters_outcome bombbusters_${this.escapeHtml(outcome)}">${messages[outcome] || ''}</div>`
@@ -124,7 +124,7 @@ export class Game {
             return `<span class="bombbusters_dial_step${reached}">${label}</span>`;
         }).join('');
         document.getElementById('bb-detonator').innerHTML = `
-            <div class="bombbusters_section_title">Детонатор: ${current} / ${max}</div>
+            <div class="bombbusters_section_title">Detonator: ${current} / ${max}</div>
             <div class="bombbusters_dial">${steps}</div>
         `;
     }
@@ -132,11 +132,11 @@ export class Game {
     renderSpecialWires() {
         const markers = this.gamedatas.specialWires.map(wire => `
             <span class="bombbusters_marker bombbusters_${wire.color}">
-                ${wire.color === 'red' ? 'Красный' : 'Жёлтый'} ${String(wire.sortValue).replace('.', ',')}
+                ${wire.color === 'red' ? 'Red' : 'Yellow'} ${String(wire.sortValue)}
             </span>
         `).join('');
         document.getElementById('bb-special-wires').innerHTML = `
-            <div class="bombbusters_section_title">Значения особых проводов</div>
+            <div class="bombbusters_section_title">Special wire values</div>
             <div class="bombbusters_markers">${markers}</div>
         `;
     }
@@ -149,7 +149,7 @@ export class Game {
             return `<span class="bombbusters_validation${done}">${value}</span>`;
         }).join('');
         document.getElementById('bb-validated').innerHTML = `
-            <div class="bombbusters_section_title">Полностью перерезанные значения</div>
+            <div class="bombbusters_section_title">Completed values</div>
             <div class="bombbusters_validations">${values}</div>
         `;
     }
@@ -157,7 +157,7 @@ export class Game {
     renderCutWires() {
         const container = document.getElementById('bb-cut-wires');
         if (this.gamedatas.cutWires.length === 0) {
-            container.innerHTML = '<span class="bombbusters_empty">Пока нет</span>';
+            container.innerHTML = '<span class="bombbusters_empty">None yet</span>';
             return;
         }
         container.innerHTML = this.gamedatas.cutWires.map(wire => this.renderPublicWire(wire)).join('');
@@ -171,10 +171,10 @@ export class Game {
             const captain = playerId === parseInt(this.gamedatas.captainId, 10);
             const labels = [this.escapeHtml(player.name)];
             if (captain) {
-                labels.push('капитан');
+                labels.push('Captain');
             }
             if (isViewer) {
-                labels.push('вы');
+                labels.push('you');
             }
             const stands = Array.from({ length: parseInt(player.standCount, 10) }, (ignored, index) => {
                 const stand = index + 1;
@@ -182,16 +182,16 @@ export class Game {
                     .sort((a, b) => parseInt(a.position, 10) - parseInt(b.position, 10));
                 return `
                     <div class="bombbusters_stand">
-                        <div class="bombbusters_stand_title">Подставка ${stand}</div>
+                        <div class="bombbusters_stand_title">Stand ${stand}</div>
                         <div class="bombbusters_wire_list">
-                            ${wires.length ? wires.map(wire => this.renderWire(wire)).join('') : '<span class="bombbusters_empty">Пусто</span>'}
+                            ${wires.length ? wires.map(wire => this.renderWire(wire)).join('') : '<span class="bombbusters_empty">Empty</span>'}
                         </div>
                     </div>
                 `;
             }).join('');
             return `
                 <section class="bombbusters_player" style="--bombbusters-player-color: #${this.escapeHtml(player.color)}">
-                    <h3>${labels.join(' · ')} <small>${hand.length} проводов</small></h3>
+                    <h3>${labels.join(' · ')} <small>${hand.length} wires</small></h3>
                     <div class="bombbusters_stands">${stands}</div>
                 </section>
             `;
@@ -217,7 +217,7 @@ export class Game {
             ? `<span class="bombbusters_info">${this.valueLabel(wire.info.value)}</span>`
             : '';
         return `
-            <button type="button" class="${classes}" data-wire-id="${wireId}" data-owner-id="${ownerId}" title="Провод ${wireId}">
+            <button type="button" class="${classes}" data-wire-id="${wireId}" data-owner-id="${ownerId}" title="Wire ${wireId}">
                 <span class="bombbusters_wire_value">${mainLabel}</span>
                 ${info}
             </button>
@@ -226,7 +226,7 @@ export class Game {
 
     renderPublicWire(wire) {
         return `
-            <span class="bombbusters_wire bombbusters_${wire.color}" title="Игрок ${parseInt(wire.ownerId, 10)}">
+            <span class="bombbusters_wire bombbusters_${wire.color}" title="Player ${parseInt(wire.ownerId, 10)}">
                 <span class="bombbusters_wire_value">${this.compactValueLabel(wire.value)}</span>
             </span>
         `;
@@ -235,11 +235,11 @@ export class Game {
     renderSelectionHelp() {
         const element = document.getElementById('bb-selection');
         if (this.setupSelectionEnabled) {
-            element.textContent = 'Нажмите на один из своих синих проводов, чтобы разместить информационный жетон.';
+            element.textContent = 'Choose one of your blue wires to place an Info token.';
         } else if (this.playerTurnActive && this.selectedDualValue !== null) {
-            element.textContent = `Выбрано значение «${this.valueLabel(this.selectedDualValue)}». Теперь нажмите на провод напарника.`;
+            element.textContent = `Selected value: ${this.valueLabel(this.selectedDualValue)}. Now choose a teammate’s wire.`;
         } else if (this.playerTurnActive) {
-            element.textContent = 'Для двойного разреза нажмите на свой синий или жёлтый провод, затем на провод напарника.';
+            element.textContent = 'For a Dual Cut, choose one of your blue or yellow wires, then choose a teammate’s wire.';
         } else {
             element.textContent = '';
         }
@@ -353,20 +353,20 @@ export class Game {
 
     valueLabel(value) {
         if (value === 'yellow') {
-            return 'жёлтый';
+            return 'YELLOW';
         }
         if (value === 'red') {
-            return 'красный';
+            return 'RED';
         }
         return String(value);
     }
 
     compactValueLabel(value) {
         if (value === 'yellow') {
-            return 'Ж';
+            return 'Y';
         }
         if (value === 'red') {
-            return 'К';
+            return 'R';
         }
         return String(value);
     }
