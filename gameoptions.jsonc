@@ -1,1 +1,18 @@
-{}
+{
+    "100": {
+        "name": "Mission",
+        "values": {
+            "1": {
+                "name": "Mission 1 — Training, Day 1",
+                "description": "24 blue wires with values 1–6. No red or yellow wires. No equipment.",
+                "tmdisplay": "Mission 1"
+            },
+            "0": {
+                "name": "Practice Mission — Full wire set",
+                "description": "Unofficial practice setup with all blue wires, two red wires and two yellow wires.",
+                "tmdisplay": "Practice Mission"
+            }
+        },
+        "default": 1
+    }
+}

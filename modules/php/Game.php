@@ -10,7 +10,6 @@ use Bga\Games\bombbusters\States\SetupInfo;
 
 class Game extends \Bga\GameFramework\Table
 {
-    public const TOTAL_WIRES = 52;
     public const DETONATOR_MAX = 6;
 
     public ItemManager $wires;
@@ -33,7 +32,19 @@ class Game extends \Bga\GameFramework\Table
     public function getGameProgression(): int
     {
         $removed = $this->wires->countItemsInLocation('cut') + $this->wires->countItemsInLocation('revealed');
-        return min(100, (int)round($removed * 100 / self::TOTAL_WIRES));
+        $total = Missions::getWireCount($this->getMission());
+        return min(100, (int)round($removed * 100 / $total));
+    }
+
+    public function getMission(): array
+    {
+        $missionId = (int)$this->bga->globals->get('mission_id', 1);
+        return Missions::get($missionId);
+    }
+
+    public function getDetonatorMax(): int
+    {
+        return self::DETONATOR_MAX;
     }
 
     public function upgradeTableDb($from_version)
@@ -73,8 +84,9 @@ class Game extends \Bga\GameFramework\Table
         );
         $result['specialWires'] = $this->getSpecialWireMarkers();
         $result['validatedValues'] = $this->getValidatedValues();
+        $result['mission'] = $this->getMission();
         $result['detonator'] = $this->getDetonator();
-        $result['detonatorMax'] = self::DETONATOR_MAX;
+        $result['detonatorMax'] = $this->getDetonatorMax();
         $result['captainId'] = $captainId;
         $result['viewerId'] = $currentPlayerId;
         $result['outcome'] = $this->bga->globals->get('outcome', null);
@@ -99,6 +111,9 @@ class Game extends \Bga\GameFramework\Table
         $this->reloadPlayersBasicInfos();
 
         $captainId = (int)$this->activeNextPlayer();
+        $missionId = $this->bga->tableOptions->get(Missions::OPTION_ID) ?? 1;
+        $mission = Missions::get($missionId);
+        $this->bga->globals->set('mission_id', $missionId);
         $this->bga->globals->set('captain_id', $captainId);
         $this->bga->globals->set('detonator', 0);
         $this->bga->globals->set('outcome', null);
@@ -106,23 +121,45 @@ class Game extends \Bga\GameFramework\Table
 
         $this->wires->initDb();
         $rows = [];
-        foreach (range(1, 12) as $value) {
+        foreach ($mission['blueValues'] as $value) {
             for ($copy = 0; $copy < 4; $copy++) {
                 $rows[] = ['location' => 'deck', 'color' => 'blue', 'sortValue' => $value];
             }
         }
 
+        $specialMarkers = [];
         foreach (['red', 'yellow'] as $color) {
-            $candidates = [];
+            $count = $mission[$color]['count'];
+            $candidateCount = $mission[$color]['candidates'];
+            $pool = [];
             for ($value = 1; $value <= 11; $value++) {
-                $candidates[] = $value + ($color === 'red' ? 0.5 : 0.1);
+                $pool[] = $value;
             }
-            for ($copy = 0; $copy < 2; $copy++) {
-                $index = bga_rand(0, count($candidates) - 1);
-                $rows[] = ['location' => 'deck', 'color' => $color, 'sortValue' => $candidates[$index]];
-                array_splice($candidates, $index, 1);
+            $candidates = [];
+            for ($index = 0; $index < $candidateCount; $index++) {
+                $poolIndex = bga_rand(0, count($pool) - 1);
+                $candidates[] = $pool[$poolIndex] + ($color === 'red' ? 0.5 : 0.1);
+                array_splice($pool, $poolIndex, 1);
+            }
+
+            $selected = $candidates;
+            while (count($selected) > $count) {
+                $index = bga_rand(0, count($selected) - 1);
+                array_splice($selected, $index, 1);
+            }
+            foreach ($selected as $sortValue) {
+                $rows[] = ['location' => 'deck', 'color' => $color, 'sortValue' => $sortValue];
+            }
+            foreach ($candidates as $sortValue) {
+                $specialMarkers[] = [
+                    'color' => $color,
+                    'sortValue' => $sortValue,
+                    'possible' => $candidateCount > $count,
+                ];
             }
         }
+        usort($specialMarkers, static fn(array $a, array $b): int => [$a['color'], $a['sortValue']] <=> [$b['color'], $b['sortValue']]);
+        $this->bga->globals->set('special_wire_markers', $specialMarkers);
         $this->wires->createItems($rows);
         $this->wires->shuffle('deck');
 
@@ -131,8 +168,9 @@ class Game extends \Bga\GameFramework\Table
             $standsByPlayer[(int)$playerId] = count($players) === 2 || (count($players) === 3 && (int)$playerId === $captainId) ? 2 : 1;
         }
         $standTotal = array_sum($standsByPlayer);
-        $baseCount = intdiv(self::TOTAL_WIRES, $standTotal);
-        $extraCount = self::TOTAL_WIRES % $standTotal;
+        $totalWires = Missions::getWireCount($mission);
+        $baseCount = intdiv($totalWires, $standTotal);
+        $extraCount = $totalWires % $standTotal;
         $standNumber = 0;
 
         foreach ($standsByPlayer as $playerId => $standCount) {
@@ -207,6 +245,7 @@ class Game extends \Bga\GameFramework\Table
         $dualValues = [];
         $soloValues = [];
         foreach ($ownCounts as $value => $count) {
+            $value = (string)$value;
             if ($value === 'red') {
                 continue;
             }
@@ -284,14 +323,7 @@ class Game extends \Bga\GameFramework\Table
 
     private function getSpecialWireMarkers(): array
     {
-        $markers = [];
-        foreach ($this->wires->getAllItems() as $wire) {
-            if ($wire->color !== 'blue') {
-                $markers[] = ['color' => $wire->color, 'sortValue' => $wire->sortValue];
-            }
-        }
-        usort($markers, static fn(array $a, array $b): int => [$a['color'], $a['sortValue']] <=> [$b['color'], $b['sortValue']]);
-        return $markers;
+        return $this->bga->globals->get('special_wire_markers', []);
     }
 
     private function sortWireValues(array &$values): void

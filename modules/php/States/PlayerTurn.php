@@ -73,7 +73,7 @@ class PlayerTurn extends GameState
         }
 
         $detonator = $this->game->advanceDetonator();
-        if ($detonator >= Game::DETONATOR_MAX) {
+        if ($detonator >= $this->game->getDetonatorMax()) {
             $this->game->setOutcome('detonator');
             $this->notify->all('detonatorExploded', clienttranslate('The detonator reaches the skull. The bomb explodes!'), [
                 'detonator' => $detonator,

@@ -25,6 +25,11 @@
     font-weight: normal;
 }
 
+.bombbusters_mission_lesson {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
 .bombbusters_panel,
 .bombbusters_player {
     background: var(--bombbusters-panel);

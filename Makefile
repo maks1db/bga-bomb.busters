@@ -6,6 +6,7 @@ DEPLOY_ROOT   := dbmodel.sql $(wildcard gameinfos.jsonc gameinfos.inc.php stats.
 DEPLOY_PHP    := $(wildcard modules/php/*.php)
 DEPLOY_STATES := $(wildcard modules/php/States/*.php)
 DEPLOY_JS     := $(wildcard modules/js/*.js)
+DEPLOY_IMG    := $(wildcard img/*.svg img/*.webp img/*.png img/*.jpg img/*.jpeg img/*.gif img/README)
 
 check:
 	@for file in $(DEPLOY_PHP) $(DEPLOY_STATES); do php -l "$$file" || exit 1; done
@@ -18,5 +19,5 @@ deploy: check
 	$(BGA_PY) $(BGA_SFTP) put $(DEPLOY_PHP) $(BGA_REMOTE_DIR)/modules/php/
 	$(BGA_PY) $(BGA_SFTP) put $(DEPLOY_STATES) $(BGA_REMOTE_DIR)/modules/php/States/
 	$(BGA_PY) $(BGA_SFTP) put $(DEPLOY_JS) $(BGA_REMOTE_DIR)/modules/js/
-	$(BGA_PY) $(BGA_SFTP) put img/* $(BGA_REMOTE_DIR)/img/
+	$(BGA_PY) $(BGA_SFTP) put $(DEPLOY_IMG) $(BGA_REMOTE_DIR)/img/
 	@echo "OK: файлы загружены"

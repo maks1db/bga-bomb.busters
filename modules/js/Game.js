@@ -71,7 +71,8 @@ export class Game {
         this.bga.gameArea.getElement().insertAdjacentHTML('beforeend', `
             <div id="bb-game" class="bombbusters_game">
                 <section class="bombbusters_panel">
-                    <h2>Practice Mission</h2>
+                    <h2 id="bb-mission-title"></h2>
+                    <div id="bb-mission-details"></div>
                     <div id="bb-outcome"></div>
                     <div id="bb-detonator"></div>
                     <div id="bb-special-wires"></div>
@@ -94,6 +95,7 @@ export class Game {
         if (!this.gamedatas || !document.getElementById('bb-game')) {
             return;
         }
+        this.renderMission();
         this.renderOutcome();
         this.renderDetonator();
         this.renderSpecialWires();
@@ -101,6 +103,26 @@ export class Game {
         this.renderCutWires();
         this.renderPlayers();
         this.renderSelectionHelp();
+    }
+
+    renderMission() {
+        const mission = this.gamedatas.mission;
+        document.getElementById('bb-mission-title').textContent = `${mission.name}: ${mission.title}`;
+        const setup = [`Blue values: ${mission.blueValues.join(', ')} (4 copies each)`];
+        ['red', 'yellow'].forEach(color => {
+            const count = parseInt(mission[color].count, 10);
+            const candidates = parseInt(mission[color].candidates, 10);
+            if (candidates > 0) {
+                setup.push(candidates > count
+                    ? `${count} of ${candidates} ${color} wires`
+                    : `${count} ${color} wires`);
+            }
+        });
+        setup.push(mission.equipment ? 'Equipment enabled' : 'No equipment');
+        document.getElementById('bb-mission-details').innerHTML = `
+            <div class="bombbusters_mission_lesson">${this.escapeHtml(mission.lesson)}</div>
+            <div>${this.escapeHtml(setup.join(' · '))}</div>
+        `;
     }
 
     renderOutcome() {
@@ -132,20 +154,19 @@ export class Game {
     renderSpecialWires() {
         const markers = this.gamedatas.specialWires.map(wire => `
             <span class="bombbusters_marker bombbusters_${wire.color}">
-                ${wire.color === 'red' ? 'Red' : 'Yellow'} ${String(wire.sortValue)}
+                ${wire.color === 'red' ? 'Red' : 'Yellow'} ${String(wire.sortValue)}${wire.possible ? ' ?' : ''}
             </span>
         `).join('');
         document.getElementById('bb-special-wires').innerHTML = `
             <div class="bombbusters_section_title">Special wire values</div>
-            <div class="bombbusters_markers">${markers}</div>
+            <div class="bombbusters_markers">${markers || '<span class="bombbusters_empty">None in this mission</span>'}</div>
         `;
     }
 
     renderValidatedValues() {
         const validated = new Set(this.gamedatas.validatedValues.map(value => parseInt(value, 10)));
-        const values = Array.from({ length: 12 }, (ignored, index) => {
-            const value = index + 1;
-            const done = validated.has(value) ? ' bombbusters_validated' : '';
+        const values = this.gamedatas.mission.blueValues.map(value => {
+            const done = validated.has(parseInt(value, 10)) ? ' bombbusters_validated' : '';
             return `<span class="bombbusters_validation${done}">${value}</span>`;
         }).join('');
         document.getElementById('bb-validated').innerHTML = `

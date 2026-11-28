@@ -30,7 +30,7 @@ class SetupInfo extends GameState
     }
 
     #[PossibleAction]
-    public function actChooseInitialInfo(int $wireId, int $currentPlayerId): string
+    public function actChooseInitialInfo(int $wireId, int $currentPlayerId): void
     {
         $wire = $this->game->wires->getItemById($wireId);
         if (
@@ -50,10 +50,10 @@ class SetupInfo extends GameState
             'wire' => $this->game->getWireData($wire, false),
         ]);
 
-        return StartGame::class;
+        $this->gamestate->setPlayerNonMultiactive($currentPlayerId, StartGame::class);
     }
 
-    public function zombie(int $playerId): string
+    public function zombie(int $playerId): void
     {
         $choices = array_values(array_filter(
             $this->game->wires->getItemsInLocation(['hand', $playerId])->values(),
@@ -63,6 +63,6 @@ class SetupInfo extends GameState
             throw new SystemException('The player has no blue wire for the initial Info token');
         }
         $wire = $this->getRandomZombieChoice($choices);
-        return $this->actChooseInitialInfo($wire->id, $playerId);
+        $this->actChooseInitialInfo($wire->id, $playerId);
     }
 }
