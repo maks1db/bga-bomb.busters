@@ -32,6 +32,17 @@ final class Missions
                 'equipment' => false,
                 'specialRules' => [],
             ],
+            2 => [
+                'id' => 2,
+                'name' => 'Mission 2',
+                'title' => 'Training, Day 2',
+                'lesson' => 'Lesson 2: Cutting the yellow wire',
+                'blueValues' => range(1, 8),
+                'red' => ['count' => 0, 'candidates' => 0],
+                'yellow' => ['count' => 2, 'candidates' => 2, 'maxValue' => 7],
+                'equipment' => false,
+                'specialRules' => [],
+            ],
             self::PRACTICE_ID => [
                 'id' => self::PRACTICE_ID,
                 'name' => 'Practice Mission',

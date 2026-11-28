@@ -131,8 +131,10 @@ class Game extends \Bga\GameFramework\Table
         foreach (['red', 'yellow'] as $color) {
             $count = $mission[$color]['count'];
             $candidateCount = $mission[$color]['candidates'];
+            $minValue = $mission[$color]['minValue'] ?? 1;
+            $maxValue = $mission[$color]['maxValue'] ?? 11;
             $pool = [];
-            for ($value = 1; $value <= 11; $value++) {
+            for ($value = $minValue; $value <= $maxValue; $value++) {
                 $pool[] = $value;
             }
             $candidates = [];

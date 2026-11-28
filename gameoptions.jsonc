@@ -7,6 +7,11 @@
                 "description": "24 blue wires with values 1–6. No red or yellow wires. No equipment.",
                 "tmdisplay": "Mission 1"
             },
+            "2": {
+                "name": "Mission 2 — Training, Day 2",
+                "description": "32 blue wires with values 1–8 and two yellow wires with sort values 1.1–7.1. No red wires. No equipment.",
+                "tmdisplay": "Mission 2"
+            },
             "0": {
                 "name": "Practice Mission — Full wire set",
                 "description": "Unofficial practice setup with all blue wires, two red wires and two yellow wires.",
