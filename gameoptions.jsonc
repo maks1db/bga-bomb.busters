@@ -12,6 +12,21 @@
                 "description": "32 blue wires with values 1–8 and two yellow wires with sort values 1.1–7.1. No red wires. No equipment.",
                 "tmdisplay": "Mission 2"
             },
+            "3": {
+                "name": "Mission 3 — Training, Day 3",
+                "description": "40 blue wires with values 1–10 and one red wire with sort value 1.5–9.5. No yellow wires. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 3"
+            },
+            "4": {
+                "name": "Mission 4 — Field Training, Day 1",
+                "description": "All blue wires, one red wire and two yellow wires; four yellow wires for two players. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 4"
+            },
+            "5": {
+                "name": "Mission 5 — Field Training, Day 2",
+                "description": "All blue wires, one red wire and two yellow wires from three candidates; two red wires for two players. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 5"
+            },
             "0": {
                 "name": "Practice Mission — Full wire set",
                 "description": "Unofficial practice setup with all blue wires, two red wires and two yellow wires.",

@@ -39,7 +39,7 @@ class Game extends \Bga\GameFramework\Table
     public function getMission(): array
     {
         $missionId = (int)$this->bga->globals->get('mission_id', 1);
-        return Missions::get($missionId);
+        return Missions::get($missionId, $this->getPlayersNumber());
     }
 
     public function getDetonatorMax(): int
@@ -112,7 +112,7 @@ class Game extends \Bga\GameFramework\Table
 
         $captainId = (int)$this->activeNextPlayer();
         $missionId = $this->bga->tableOptions->get(Missions::OPTION_ID) ?? 1;
-        $mission = Missions::get($missionId);
+        $mission = Missions::get($missionId, count($players));
         $this->bga->globals->set('mission_id', $missionId);
         $this->bga->globals->set('captain_id', $captainId);
         $this->bga->globals->set('detonator', 0);

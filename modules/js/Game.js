@@ -118,7 +118,7 @@ export class Game {
                     : `${count} ${color} wires`);
             }
         });
-        setup.push(mission.equipment ? 'Equipment enabled' : 'No equipment');
+        setup.push(mission.equipment ? 'Equipment cards not implemented yet' : 'No equipment');
         document.getElementById('bb-mission-details').innerHTML = `
             <div class="bombbusters_mission_lesson">${this.escapeHtml(mission.lesson)}</div>
             <div>${this.escapeHtml(setup.join(' · '))}</div>
