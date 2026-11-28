@@ -27,6 +27,21 @@
                 "description": "All blue wires, one red wire and two yellow wires from three candidates; two red wires for two players. Equipment cards are not implemented yet.",
                 "tmdisplay": "Mission 5"
             },
+            "6": {
+                "name": "Mission 6 — Field Training, Day 3",
+                "description": "All blue wires, one red wire and four yellow wires; two red wires for two players. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 6"
+            },
+            "7": {
+                "name": "Mission 7 — Final Training Day",
+                "description": "All blue wires and one red wire from two candidates; three candidates for two players. No yellow wires. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 7"
+            },
+            "8": {
+                "name": "Mission 8 — Graduation Exam",
+                "description": "All blue wires, one red wire from two candidates and two yellow wires from three; for two players, one red from three candidates and four yellow wires. Equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 8"
+            },
             "0": {
                 "name": "Practice Mission — Full wire set",
                 "description": "Unofficial practice setup with all blue wires, two red wires and two yellow wires.",
