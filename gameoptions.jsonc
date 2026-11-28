@@ -42,6 +42,116 @@
                 "description": "All blue wires, one red wire from two candidates and two yellow wires from three; for two players, one red from three candidates and four yellow wires. Equipment cards are not implemented yet.",
                 "tmdisplay": "Mission 8"
             },
+            "9": {
+                "name": "Mission 9 — Sense of Priority",
+                "description": "All blue wires, one red wire and two yellow wires; two red and four yellow wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 9"
+            },
+            "10": {
+                "name": "Mission 10 — A Run of Bad Luck",
+                "description": "All blue wires, one red wire and four yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 10"
+            },
+            "11": {
+                "name": "Mission 11 — Blue on Red Is Just Terrible!",
+                "description": "All blue wires, no red wires and two yellow wires; four yellow wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 11"
+            },
+            "12": {
+                "name": "Mission 12 — Lost Equipment",
+                "description": "All blue wires, one red wire and four yellow wires; two red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 12"
+            },
+            "13": {
+                "name": "Mission 13 — Code Red!",
+                "description": "All blue wires, three red wires and no yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 13"
+            },
+            "14": {
+                "name": "Mission 14 — Dangerous Bomb Buster",
+                "description": "All blue wires, two red wires and two yellow wires from three candidates; three red and four yellow wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 14"
+            },
+            "15": {
+                "name": "Mission 15 — Mission in Nagareyama",
+                "description": "All blue wires, one red wire from three candidates and no yellow wires; two red wires from three candidates for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 15"
+            },
+            "16": {
+                "name": "Mission 16 — Perfectly Logical",
+                "description": "All blue wires, one red wire and two yellow wires from three candidates; two red and four yellow wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 16"
+            },
+            "17": {
+                "name": "Mission 17 — Baron Munchausen",
+                "description": "All blue wires, two red wires from three candidates and no yellow wires; three red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 17"
+            },
+            "18": {
+                "name": "Mission 18 — Bat-Help",
+                "description": "All blue wires, two red wires and no yellow wires; three red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 18"
+            },
+            "19": {
+                "name": "Mission 19 — Into the Beast’s Jaws...",
+                "description": "All blue wires, one red wire and two yellow wires from three candidates. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 19"
+            },
+            "20": {
+                "name": "Mission 20 — Big Bad Wolf",
+                "description": "All blue wires, two red wires and two yellow wires; two red wires from three candidates and four yellow wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 20"
+            },
+            "21": {
+                "name": "Mission 21 — Deadly Haggis",
+                "description": "All blue wires, one red wire from two candidates and no yellow wires; two red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 21"
+            },
+            "22": {
+                "name": "Mission 22 — Anything but That!",
+                "description": "All blue wires, one red wire and four yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 22"
+            },
+            "23": {
+                "name": "Mission 23 — Mission in Fordwich",
+                "description": "All blue wires, one red wire from three candidates and no yellow wires; two red wires from three candidates for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 23"
+            },
+            "24": {
+                "name": "Mission 24 — All Personnel Present!",
+                "description": "All blue wires, two red wires and no yellow wires; three red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 24"
+            },
+            "25": {
+                "name": "Mission 25 — So I Can Hear You Better...",
+                "description": "All blue wires, two red wires and no yellow wires; three red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 25"
+            },
+            "26": {
+                "name": "Mission 26 — Speaking of Wolves...",
+                "description": "All blue wires, two red wires and no yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 26"
+            },
+            "27": {
+                "name": "Mission 27 — Wires Are Not Toys",
+                "description": "All blue wires, one red wire and four yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 27"
+            },
+            "28": {
+                "name": "Mission 28 — Captain Lazy",
+                "description": "All blue wires, two red wires and four yellow wires; three red wires for two players. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 28"
+            },
+            "29": {
+                "name": "Mission 29 — Wrong Number",
+                "description": "All blue wires, three red wires and no yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 29"
+            },
+            "30": {
+                "name": "Mission 30 — Speed Mission!",
+                "description": "All blue wires, one red wire from two candidates and four yellow wires. Special rules and equipment cards are not implemented yet.",
+                "tmdisplay": "Mission 30"
+            },
             "0": {
                 "name": "Practice Mission — Full wire set",
                 "description": "Unofficial practice setup with all blue wires, two red wires and two yellow wires.",
